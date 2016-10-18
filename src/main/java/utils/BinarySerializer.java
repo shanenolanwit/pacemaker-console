@@ -9,61 +9,51 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Stack;
 
-public class BinarySerializer implements Serializer 
-{
+public class BinarySerializer implements Serializer {
 
-  private Stack stack = new Stack();
-  private File file;
+	private Stack stack = new Stack();
+	private File file = new File("datastore.bin");
 
-  public BinarySerializer(File file)
-  {
-    this.file = file;
-  }
+	public BinarySerializer() {
+		super();
+	}
+	
+	public BinarySerializer(File file) {
+		this.file = file;
+	}
 
-  public void push(Object o)
-  {
-    stack.push(o);
-  }
+	public void push(Object o) {
+		stack.push(o);
+	}
 
-  public Object pop()
-  {
-    return stack.pop(); 
-  }
+	public Object pop() {
+		return stack.pop();
+	}
 
-  @SuppressWarnings("unchecked")
-  public void read() throws Exception
-  {
-    ObjectInputStream is = null;
+	@SuppressWarnings("unchecked")
+	public void read() throws Exception {
+		ObjectInputStream is = null;
 
-    try
-    {
-      is = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
-      stack = (Stack) is.readObject();
-    }
-    finally
-    {
-      if (is != null)
-      {
-        is.close();
-      }
-    }
-  }
+		try {
+			is = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
+			stack = (Stack) is.readObject();
+		} finally {
+			if (is != null) {
+				is.close();
+			}
+		}
+	}
 
-  public void write() throws Exception
-  {
-    ObjectOutputStream os = null;
+	public void write() throws Exception {
+		ObjectOutputStream os = null;
 
-    try
-    {
-      os = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
-      os.writeObject(stack);
-    }
-    finally
-    {
-      if (os != null)
-      {
-        os.close();
-      }
-    }
-  }
+		try {
+			os = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+			os.writeObject(stack);
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+		}
+	}
 }

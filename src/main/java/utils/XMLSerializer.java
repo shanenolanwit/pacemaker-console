@@ -15,8 +15,12 @@ import java.util.Stack;
 public class XMLSerializer implements Serializer {
 
 	private Stack stack = new Stack();
-	private File file;
+	private File file = new File("datastore.xml");	
 
+	public XMLSerializer() {
+		super();
+	}
+	
 	public XMLSerializer(File file) {
 		this.file = file;
 	}
