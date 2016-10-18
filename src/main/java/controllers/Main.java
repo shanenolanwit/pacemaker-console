@@ -94,8 +94,9 @@ public class Main
                            @Param(name="distance") double distance,
                            @Param(name="date") String date)
   {
-	    Optional<User> user = Optional.fromNullable(paceApi.getUser(id));
-	    if (user.isPresent())
+	 
+	  Optional<User> user = Optional.fromNullable(paceApi.getUser(id));
+	    if (user.isPresent() && DateTimeUtils.isValidDate(date))
 	    {
 	      paceApi.createActivity(id, type, location, distance, DateTimeUtils.convertStringToLocalDateTime(date));
 	    }

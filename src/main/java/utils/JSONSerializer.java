@@ -2,11 +2,6 @@ package utils;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
