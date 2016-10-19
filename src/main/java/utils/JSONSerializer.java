@@ -13,14 +13,14 @@ import java.util.Stack;
 public class JSONSerializer implements Serializer {
 
 	private Stack stack = new Stack();
-	private File file = new File("datastore.json");
+	private File dataStore = new File("datastore.json");
 
 	public JSONSerializer() {
 		super();
 	}
 	
-	public JSONSerializer(File file) {
-		this.file = file;
+	public JSONSerializer(File dataStore) {
+		this.dataStore = dataStore;
 	}
 
 	public void push(Object o) {
@@ -34,7 +34,7 @@ public class JSONSerializer implements Serializer {
 	public void read() throws Exception {
 		ObjectInputStream is = null;
 		// BufferedReader reader = new BufferedReader(new FileReader(file));
-		JsonReader reader = new JsonReader(new FileReader(file));
+		JsonReader reader = new JsonReader(new FileReader(dataStore));
 		try {
 			// XStream xstream = new XStream(new JettisonMappedXmlDriver());
 			// is = xstream.createObjectInputStream(reader);
@@ -53,9 +53,11 @@ public class JSONSerializer implements Serializer {
 		}
 	}
 
+	//xstream bug - can not serialise localdatetime
+	//https://github.com/x-stream/xstream/issues/24
 	public void write() throws Exception {
 		ObjectOutputStream os = null;
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		BufferedWriter writer = new BufferedWriter(new FileWriter(dataStore));
 		try {
 			// XStream xstream = new XStream(new JettisonMappedXmlDriver());
 			// os = xstream.createObjectOutputStream(writer);
@@ -70,5 +72,10 @@ public class JSONSerializer implements Serializer {
 				writer.close();
 			}
 		}
+	}
+	
+	@Override
+	public File getDataStore() {
+		return this.dataStore;
 	}
 }

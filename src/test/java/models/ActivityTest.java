@@ -13,7 +13,7 @@ import static models.Fixtures.activities;
 
 public class ActivityTest {
 	Activity test = new Activity("walk", "fridge", 0.001,
-			DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"));
+			DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"), DateTimeUtils.convertStringToDuration("01:02:03"));
 
 	@Test
 	public void testCreate() {

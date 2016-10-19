@@ -12,14 +12,14 @@ import java.util.Stack;
 public class BinarySerializer implements Serializer {
 
 	private Stack stack = new Stack();
-	private File file = new File("datastore.bin");
+	private File dataStore = new File("datastore.bin");
 
 	public BinarySerializer() {
 		super();
 	}
 	
-	public BinarySerializer(File file) {
-		this.file = file;
+	public BinarySerializer(File dataStore) {
+		this.dataStore = dataStore;
 	}
 
 	public void push(Object o) {
@@ -35,7 +35,7 @@ public class BinarySerializer implements Serializer {
 		ObjectInputStream is = null;
 
 		try {
-			is = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
+			is = new ObjectInputStream(new BufferedInputStream(new FileInputStream(dataStore)));
 			stack = (Stack) is.readObject();
 		} finally {
 			if (is != null) {
@@ -48,12 +48,17 @@ public class BinarySerializer implements Serializer {
 		ObjectOutputStream os = null;
 
 		try {
-			os = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+			os = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(dataStore)));
 			os.writeObject(stack);
 		} finally {
 			if (os != null) {
 				os.close();
 			}
 		}
+	}
+
+	@Override
+	public File getDataStore() {
+		return this.dataStore;
 	}
 }

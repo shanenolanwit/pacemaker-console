@@ -15,14 +15,14 @@ import java.util.Stack;
 public class XMLSerializer implements Serializer {
 
 	private Stack stack = new Stack();
-	private File file = new File("datastore.xml");	
+	private File dataStore = new File("datastore.xml");	
 
 	public XMLSerializer() {
 		super();
 	}
 	
-	public XMLSerializer(File file) {
-		this.file = file;
+	public XMLSerializer(File dataStore) {
+		this.dataStore = dataStore;
 	}
 
 	public void push(Object o) {
@@ -35,7 +35,7 @@ public class XMLSerializer implements Serializer {
 
 	public void read() throws Exception {
 		ObjectInputStream is = null;
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		BufferedReader reader = new BufferedReader(new FileReader(dataStore));
 		try {
 			XStream xstream = new XStream(new DomDriver());
 			is = xstream.createObjectInputStream(reader);
@@ -52,7 +52,7 @@ public class XMLSerializer implements Serializer {
 
 	public void write() throws Exception {
 		ObjectOutputStream os = null;
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		BufferedWriter writer = new BufferedWriter(new FileWriter(dataStore));
 		try {
 			XStream xstream = new XStream(new DomDriver());
 			os = xstream.createObjectOutputStream(writer);
@@ -65,5 +65,10 @@ public class XMLSerializer implements Serializer {
 				writer.close();
 			}
 		}
+	}
+	
+	@Override
+	public File getDataStore() {
+		return this.dataStore;
 	}
 }

@@ -4,6 +4,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 
 import java.util.List;
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -17,17 +18,20 @@ public class Activity implements Serializable {
 	public String location;
 	public double distance;
 	public LocalDateTime date;
+	public Duration duration;
+	
 	public List<Location> route = new ArrayList<>();
 
 	public Activity() {
 	}
 
-	public Activity(String type, String location, double distance, LocalDateTime date) {
+	public Activity(String type, String location, double distance, LocalDateTime date, Duration duration) {
 		this.id = counter++;
 		this.type = type;
 		this.location = location;
 		this.distance = distance;
 		this.date = date;
+		this.duration = duration;
 	}
 
 	@Override

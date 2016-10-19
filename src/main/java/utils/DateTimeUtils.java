@@ -1,5 +1,6 @@
 package utils;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -28,6 +29,27 @@ public class DateTimeUtils {
 		}
 		return valid;
 		
+	}
+
+	public static boolean isValidDuration(String duration) {
+		boolean valid = false;
+		String[] tokens = duration.split(":");
+		if(tokens.length == 3){
+			int hours = Integer.parseInt(tokens[0]);
+			int minutes = Integer.parseInt(tokens[1]);
+			int seconds = Integer.parseInt(tokens[2]);
+			valid = (hours >= 0 && minutes >= 0 && seconds >= 0);
+		}
+		
+		return valid;
+	}
+
+	public static Duration convertStringToDuration(String duration) {
+		String[] tokens = duration.split(":");
+		int hours = Integer.parseInt(tokens[0]);
+		int minutes = Integer.parseInt(tokens[1]);
+		int seconds = Integer.parseInt(tokens[2]);
+		return Duration.ofHours(hours).plusMinutes(minutes).plusSeconds(seconds);
 	}
 
 }

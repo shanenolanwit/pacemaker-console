@@ -1,12 +1,19 @@
 package controllers;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Optional;
 
+import enums.ActivitySortFilter;
+import enums.FileFormat;
 import models.Activity;
 import models.Location;
 import models.User;
@@ -38,11 +45,11 @@ public class PacemakerAPI {
 		return user;
 	}
 
-	public Activity createActivity(Long id, String type, String location, double distance, LocalDateTime date) {
+	public Activity createActivity(Long id, String type, String location, double distance, LocalDateTime date, Duration duration) {
 		Activity activity = null;
 		Optional<User> user = Optional.fromNullable(userIndex.get(id));
 		if (user.isPresent()) {
-			activity = new Activity(type, location, distance, date);
+			activity = new Activity(type, location, distance, date, duration);
 			user.get().activities.put(activity.id, activity);
 			activitiesIndex.put(activity.id, activity);
 		}
@@ -67,6 +74,20 @@ public class PacemakerAPI {
 	public User getUser(Long id) {
 		return userIndex.get(id);
 	}
+	
+	public Collection<Activity> listActivities(Long id) {
+		return userIndex.get(id).activities.values();
+	}
+
+	public Collection<Activity> listActivities(Long id, String sortBy) {
+		List<Activity> values = new ArrayList<>(
+				userIndex.get(id).activities.values());
+		Collections.sort(values,
+				ActivitySortFilter.identify(sortBy).getComparator());
+
+		return values;
+
+	}
 
 	public void deleteUser(Long id) {
 		User user = userIndex.remove(id);
@@ -75,13 +96,17 @@ public class PacemakerAPI {
 
 	@SuppressWarnings("unchecked")
 	public void load() throws Exception {
+		try{
+			User.counter = (long) serializer.pop();
+			Activity.counter = (long) serializer.pop();
 
-		User.counter = (long) serializer.pop();
-		Activity.counter = (long) serializer.pop();
-
-		activitiesIndex = (Map<Long, Activity>) serializer.pop();
-		emailIndex = (Map<String, User>) serializer.pop();
-		userIndex = (Map<Long, User>) serializer.pop();
+			activitiesIndex = (Map<Long, Activity>) serializer.pop();
+			emailIndex = (Map<String, User>) serializer.pop();
+			userIndex = (Map<Long, User>) serializer.pop();
+		} catch( EmptyStackException e ){
+			System.out.println("Empty Stack");
+		}
+		
 	}
 
 	public void store() throws Exception {
@@ -124,6 +149,10 @@ public class PacemakerAPI {
 
 	public void setSerializer(Serializer serializer) {
 		this.serializer = serializer;
+	}
+
+	public void changeFileFormat(String fileFormat) {
+		setSerializer(FileFormat.identify(fileFormat).getSerializer());
 	}
 
 }
