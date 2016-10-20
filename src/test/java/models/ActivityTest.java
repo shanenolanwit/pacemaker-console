@@ -33,6 +33,6 @@ public class ActivityTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("Activity{" + test.id + ", walk, fridge, 0.001, 2013-10-12T09:00, []}", test.toString());
+		assertEquals("Activity{" + test.id + ", walk, fridge, 0.001, 2013-10-12T09:00, 1:02:03, []}", test.toString());
 	}
 }

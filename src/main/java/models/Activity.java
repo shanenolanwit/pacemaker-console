@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import com.google.common.base.Objects;
 
+import utils.DateTimeUtils;
+
 public class Activity implements Serializable {
 
 	public static Long counter = 0l;
@@ -36,25 +38,30 @@ public class Activity implements Serializable {
 
 	@Override
 	public boolean equals(final Object obj) {
+		boolean equal = false;
 		if (obj instanceof Activity) {
 			final Activity other = (Activity) obj;
-			return Objects.equal(type, other.type) && Objects.equal(location, other.location)
-					&& Objects.equal(distance, other.distance) && Objects.equal(date, other.date)
+			equal = Objects.equal(type, other.type)
+					&& Objects.equal(location, other.location)
+					&& Objects.equal(distance, other.distance)
+					&& Objects.equal(date, other.date)
+					&& Objects.equal(duration, other.duration)
 					&& Objects.equal(route, other.route);
 		} else {
-			return false;
+			System.out.println("Expected Location, got " + obj.getClass().getSimpleName());
 		}
+		return equal;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(this.id, this.type, this.location, this.distance, this.date);
+		return Objects.hashCode(this.id, this.type, this.location, this.distance, this.date, this.duration);
 	}
 
 	@Override
 	public String toString() {
 		return toStringHelper(this).addValue(id).addValue(type).addValue(location)
-				.addValue(distance).addValue(date).addValue(route)
+				.addValue(distance).addValue(date).addValue(DateTimeUtils.convertDurationToString(duration)).addValue(route)
 				.toString();
 	}
 }

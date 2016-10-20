@@ -13,6 +13,8 @@ import de.vandermeer.asciitable.v2.V2_AsciiTable;
 import de.vandermeer.asciitable.v2.render.V2_AsciiTableRenderer;
 import de.vandermeer.asciitable.v2.render.WidthLongestWord;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 public class DisplayUtils {
 	
 	public final static Object[] USER_TABLE_HEADER = new String[]{"ID","FIRSTNAME","LASTNAME","EMAIL","PASSWORD"};
@@ -25,7 +27,7 @@ public class DisplayUtils {
 		at.addStrongRule();
 		users.stream().forEach( u -> {			
 			
-			at.addRow(Long.toString(u.id), u.firstName, u.lastName, u.email, u.password);	
+			at.addRow(Long.toString(u.id), WordUtils.capitalize(u.firstName), WordUtils.capitalize(u.lastName), u.email, u.password);	
 			at.addRule();
 		});
 
@@ -49,7 +51,7 @@ public class DisplayUtils {
 		activities.stream().forEach( a -> {			
 			
 			at.addRow(Long.toString(a.id), a.type, a.location, Double.toString(a.distance), 
-					DateTimeUtils.convertLocalDateTimeToString(a.date),(a.duration), a.route.toString());	
+					DateTimeUtils.convertLocalDateTimeToString(a.date),DateTimeUtils.convertDurationToString(a.duration), a.route.toString());	
 			at.addRule();
 		});
 		V2_AsciiTableRenderer rend = new V2_AsciiTableRenderer();

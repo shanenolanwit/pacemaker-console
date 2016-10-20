@@ -4,12 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import comparators.ActivityDateComparator;
-import comparators.ActivityDistanceComparator;
-import comparators.ActivityDurationComparator;
-import comparators.ActivityIdComparator;
-import comparators.ActivityLocationComparator;
-import comparators.ActivityTypeComparator;
 import utils.BinarySerializer;
 import utils.JSONSerializer;
 import utils.XMLSerializer;

@@ -9,6 +9,9 @@ repositories {
 }
 
 dependencies {
+
+	compile "org.apache.commons:commons-lang3:3.0"
+
     compile "com.googlecode.clichemaven:cliche:110413"
     compile "com.google.guava:guava:19.0"
     

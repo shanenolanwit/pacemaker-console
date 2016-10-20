@@ -6,9 +6,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 public class DateTimeUtils {
 	
 	public static final String DATE_TIME_FORMAT = "dd:MM:yyyy H:mm:ss";
+	public static final String DURATION_FORMAT = "H:mm:ss";
 	
 	public static String convertLocalDateTimeToString(LocalDateTime dateTime){
 		 return dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
@@ -50,6 +53,10 @@ public class DateTimeUtils {
 		int minutes = Integer.parseInt(tokens[1]);
 		int seconds = Integer.parseInt(tokens[2]);
 		return Duration.ofHours(hours).plusMinutes(minutes).plusSeconds(seconds);
+	}
+	
+	public static String convertDurationToString(Duration duration){		
+		return DurationFormatUtils.formatDuration(duration.toMillis(), DURATION_FORMAT);
 	}
 
 }
