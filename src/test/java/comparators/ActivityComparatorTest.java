@@ -66,6 +66,16 @@ public class ActivityComparatorTest {
 	}
 	
 	@Test
+	public void testIdComparator(){
+		Collections.sort(activities, new ActivityIdComparator());
+		assertEquals(a1,activities.get(0));
+		assertEquals(a2,activities.get(1));
+		assertEquals(a3,activities.get(2));
+		assertEquals(a4,activities.get(3));
+		assertEquals(a5,activities.get(4));
+	}
+	
+	@Test
 	public void testTypeComparator(){
 		Collections.sort(activities, new ActivityTypeComparator());
 		assertEquals(a5,activities.get(0));

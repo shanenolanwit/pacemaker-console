@@ -13,7 +13,8 @@ import static models.Fixtures.activities;
 
 public class ActivityTest {
 	Activity test = new Activity("walk", "fridge", 0.001,
-			DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"), DateTimeUtils.convertStringToDuration("01:02:03"));
+			DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+			DateTimeUtils.convertStringToDuration("01:02:03"));
 
 	@Test
 	public void testCreate() {
@@ -29,6 +30,14 @@ public class ActivityTest {
 			ids.add(activity.id);
 		}
 		assertEquals(activities.length, ids.size());
+	}
+
+	@Test
+	public void testEquality() {
+		Object x = activities[0];
+		assertTrue(activities[0].equals(x));
+		assertFalse(activities[0].equals(activities[1]));
+		assertFalse(activities[0].equals(new String("hello world")));
 	}
 
 	@Test

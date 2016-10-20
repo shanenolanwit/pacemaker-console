@@ -26,6 +26,16 @@ public class FileFormatTest {
 		
 	}
 	
+	@Test
+	public void testExistance(){
+		assertTrue(FileFormat.exists("binary"));
+		assertTrue(FileFormat.exists("XML"));
+		assertTrue(FileFormat.exists("Json"));
+		assertFalse(FileFormat.exists("blah"));
+		assertFalse(FileFormat.exists(""));
+		assertFalse(FileFormat.exists(null));
+	}
+	
 	@Test(expected = Exception.class)
 	public void testBadIdentifierException(){
 		assertEquals(null,FileFormat.identify("j").getSerializer().getClass());

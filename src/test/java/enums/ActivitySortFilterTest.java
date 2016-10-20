@@ -41,6 +41,18 @@ public class ActivitySortFilterTest {
 		
 	}
 	
+	@Test
+	public void testExistance(){
+		assertTrue(ActivitySortFilter.exists("DATE"));
+		assertTrue(ActivitySortFilter.exists("LOCATION"));
+		assertTrue(ActivitySortFilter.exists("Duration"));
+		assertTrue(ActivitySortFilter.exists("ID"));
+		assertTrue(ActivitySortFilter.exists("type"));
+		assertFalse(ActivitySortFilter.exists("blah"));
+		assertFalse(ActivitySortFilter.exists(""));
+		assertFalse(ActivitySortFilter.exists(null));
+	}
+	
 	@Test(expected = Exception.class)
 	public void testBadIdentifierException(){
 		assertEquals(null,ActivitySortFilter.identify("j").getComparator().getClass());

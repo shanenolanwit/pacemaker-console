@@ -4,8 +4,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class DateTimeUtils {
@@ -27,7 +25,7 @@ public class DateTimeUtils {
 		try{
 			LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
 			valid = true;
-		}catch(DateTimeParseException e){
+		}catch(DateTimeParseException | NullPointerException e){
 			System.out.println("Invalid date pattern - please use " + DATE_TIME_FORMAT);
 		}
 		return valid;
@@ -57,6 +55,22 @@ public class DateTimeUtils {
 	
 	public static String convertDurationToString(Duration duration){		
 		return DurationFormatUtils.formatDuration(duration.toMillis(), DURATION_FORMAT);
+	}
+	
+	public static String convertDurationForDisplay(Duration duration){		
+		String[] tokens = DurationFormatUtils.formatDuration(duration.toMillis(), DURATION_FORMAT).split(":");
+		int hours = Integer.valueOf(tokens[0]);
+		int minutes = Integer.valueOf(tokens[1]);
+		int seconds = Integer.valueOf(tokens[2]);
+		StringBuilder sb = new StringBuilder();
+		if(hours > 0){			
+			sb.append(hours + " hour(s), ");
+		}
+		if(minutes > 0){
+			sb.append(minutes + " minute(s), and ");
+		}		
+		sb.append(seconds + " second(s)");
+		return sb.toString();
 	}
 
 }
