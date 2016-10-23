@@ -14,6 +14,7 @@ import com.google.common.base.Optional;
 
 import enums.ActivitySortFilter;
 import enums.FileFormat;
+import enums.UserSortFilter;
 import models.Activity;
 import models.Location;
 import models.User;
@@ -88,9 +89,18 @@ public class PacemakerAPI {
 		return values;
 
 	}
+	
+	public Collection<User> listUsers(String sortBy) {
+		List<User> values = new ArrayList<>(userIndex.values());
+		Collections.sort(values,
+				UserSortFilter.identify(sortBy).getComparator());
 
-	public void deleteUser(Long id) {
-		User user = userIndex.remove(id);
+		return values;
+
+	}
+	
+	public void deleteUser(User user) {
+		userIndex.remove(user.id);
 		emailIndex.remove(user.email);
 	}
 

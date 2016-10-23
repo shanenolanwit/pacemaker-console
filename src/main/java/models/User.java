@@ -30,7 +30,7 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(this.lastName, this.firstName, this.email, this.password);
+		return Objects.hashCode(this.id, this.lastName, this.firstName, this.email, this.password);
 	}
 
 	@Override

@@ -51,7 +51,7 @@ public class DisplayUtils {
 		activities.stream().forEach( a -> {			
 			
 			at.addRow(Long.toString(a.id), a.type, a.location, Double.toString(a.distance), 
-					DateTimeUtils.convertLocalDateTimeToString(a.date),DateTimeUtils.convertDurationToString(a.duration), a.route.toString());	
+					DateTimeUtils.convertLocalDateTimeToString(a.date),DateTimeUtils.convertDurationForDisplay(a.duration), a.route.toString());	
 			at.addRule();
 		});
 		V2_AsciiTableRenderer rend = new V2_AsciiTableRenderer();

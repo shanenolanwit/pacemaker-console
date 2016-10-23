@@ -2,6 +2,7 @@ package utils;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Constructor;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -18,6 +19,20 @@ public class DateTimeUtilsTest {
 		Activity a = new Activity("walk", "fridge", 0.001,
     			DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"), 
     			DateTimeUtils.convertStringToDuration("01:02:03"));
+	}
+	
+	@Test
+	public void testCoverageForPrivateConstructor() throws Exception {
+		//http://stackoverflow.com/questions/4520216/how-to-add-test-coverage-to-a-private-constructor
+		//This checks that the utility class only has one constructor and that it is private
+		//It then changes the private constructor to public and checks that it can be instantiated
+		Constructor[] ctors = DateTimeUtils.class.getDeclaredConstructors();
+	    assertEquals("Utility class should only have one constructor", 1, ctors.length);
+	    Constructor ctor = ctors[0];
+	    assertFalse("Utility class constructor should be inaccessible", ctor.isAccessible());
+	    ctor.setAccessible(true); 
+	    assertEquals("You'd expect the construct to return the expected type",
+	            DateTimeUtils.class, ctor.newInstance().getClass());
 	}
 
 	@Test
@@ -59,6 +74,9 @@ public class DateTimeUtilsTest {
 		assertTrue(DateTimeUtils.isValidDuration("19:199:1"));
 		assertFalse(DateTimeUtils.isValidDuration("5:5"));
 		assertFalse(DateTimeUtils.isValidDuration("5:5:5:5"));
+		assertFalse(DateTimeUtils.isValidDuration("-5:5:5"));
+		assertFalse(DateTimeUtils.isValidDuration("5:-5:5"));
+		assertFalse(DateTimeUtils.isValidDuration("5:5:-5"));
 		assertFalse(DateTimeUtils.isValidDuration("20minutes"));
 	}
 	

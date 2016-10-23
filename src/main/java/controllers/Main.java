@@ -13,6 +13,7 @@ import asg.cliche.Shell;
 import asg.cliche.ShellFactory;
 import enums.ActivitySortFilter;
 import enums.FileFormat;
+import enums.UserSortFilter;
 import models.Activity;
 import models.User;
 import utils.DateTimeUtils;
@@ -37,6 +38,26 @@ public class Main {
 	}	
 	
 	/**
+	 * 
+	 * @param sortBy
+	 */
+	@Command(description = "List details of an activity")
+	public void listUsers(@Param(name = "sortBy: id|firstname|lastname|email") String sortBy) {
+		List<User> users = new ArrayList<User>(paceApi.getUsers());
+		if (!users.isEmpty() && UserSortFilter.exists(sortBy)) {
+			System.out.println("ok");
+			System.out.println(DisplayUtils.listUsers(paceApi.listUsers(sortBy)));
+		} else {
+			if(users.isEmpty()){
+				System.out.println("No users found");
+			} else {
+				System.out.println("Invalid sort filter");
+			}
+			
+		}
+	}
+	
+	/**
 	 * Lists all the users
 	 */
 	@Command(description = "Get all users details")
@@ -58,7 +79,9 @@ public class Main {
 			@Param(name = "email") String email, 
 			@Param(name = "password") String password) {
 		if(Pattern.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", email)){
-			paceApi.createUser(firstName, lastName, email, password);
+			User u = paceApi.createUser(firstName, lastName, email, password);
+			System.out.println("ok");
+			System.out.println(DisplayUtils.listUser(u));
 		} else {
 			System.out.println("Invalid email format [ " + email + " ]");
 		}
@@ -75,7 +98,7 @@ public class Main {
 		if (user.isPresent()) {
 			System.out.println(DisplayUtils.listUser(user.get()));
 		}	else {
-			System.out.println("No user found");
+			System.out.println("User not found");
 		}
 	}
 
@@ -126,17 +149,24 @@ public class Main {
 			Collection<Activity> activities = paceApi.listActivities(id,sortBy);
 			System.out.println(DisplayUtils.listActivities(activities));
 		} else {
-			System.out.println("User or filter were invalid");
+			if (user.isPresent()){
+				System.out.println("User not found");
+			} else{
+				System.out.println("Filter not found");
+			}			
 		}
 	}
 
 	
 
 	@Command(description = "Delete a User")
-	public void deleteUser(@Param(name = "email") String email) {
-		Optional<User> user = Optional.fromNullable(paceApi.getUserByEmail(email));
+	public void deleteUser(@Param(name = "id") long id) {
+		Optional<User> user = Optional.fromNullable(paceApi.getUser(id));
 		if (user.isPresent()) {
-			paceApi.deleteUser(user.get().id);
+			System.out.println("ok");
+			paceApi.deleteUser(user.get());
+		} else {
+			System.out.println("User not found");
 		}
 	}
 
@@ -147,8 +177,11 @@ public class Main {
 
 		Optional<User> user = Optional.fromNullable(paceApi.getUser(id));
 		if (user.isPresent() && DateTimeUtils.isValidDate(date) && DateTimeUtils.isValidDuration(duration)) {
+			System.out.println("ok");
 			paceApi.createActivity(id, type, location, distance, 
 					DateTimeUtils.convertStringToLocalDateTime(date), DateTimeUtils.convertStringToDuration(duration));
+		} else {
+			System.out.println("User not found");
 		}
 	}
 
@@ -157,7 +190,10 @@ public class Main {
 			@Param(name = "latitude") double latitude) {
 		Optional<Activity> activity = Optional.fromNullable(paceApi.getActivity(id));
 		if (activity.isPresent()) {
+			System.out.println("ok");
 			paceApi.addLocation(activity.get().id, latitude, longitude);
+		} else {
+			System.out.println("Activity not found");
 		}
 
 	}

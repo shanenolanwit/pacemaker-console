@@ -10,6 +10,9 @@ import controllers.PacemakerAPI;
 import models.Activity;
 import models.Location;
 import models.User;
+import utils.BinarySerializer;
+import utils.JSONSerializer;
+import utils.XMLSerializer;
 
 import static models.Fixtures.users;
 import static models.Fixtures.activities;
@@ -70,14 +73,40 @@ public class PacemakerAPITest
 			assertNotSame(user, eachUser);
 		}
 	}
+	
+	@Test
+	public void testGetUser(){
+		User marge = pacemaker.getUserByEmail("marge@simpson.com");
+		long id = marge.id;
+		assertEquals(marge, pacemaker.getUser(id));
+		assertNull(pacemaker.getUser((long) -3));
+		
+	}
+	
+	@Test
+	public void testChangeFileFormat(){
+		pacemaker.changeFileFormat("JSON");
+		assertEquals(JSONSerializer.class, pacemaker.getSerializer().getClass());
+		pacemaker.changeFileFormat("xml");
+		assertEquals(XMLSerializer.class, pacemaker.getSerializer().getClass());
+		pacemaker.changeFileFormat("Binary");
+		assertEquals(BinarySerializer.class, pacemaker.getSerializer().getClass());
+	}
 
 	@Test
 	public void testDeleteUsers()
 	{
 		assertEquals (users.length, pacemaker.getUsers().size());
 		User marge = pacemaker.getUserByEmail("marge@simpson.com");
-		pacemaker.deleteUser(marge.id);
-		assertEquals (users.length-1, pacemaker.getUsers().size());    
+		pacemaker.deleteUser(marge);
+		assertEquals (users.length-1, pacemaker.getUsers().size()); 
+		assertTrue(users.length > 0);
+		assertTrue(pacemaker.getUserIndex().size() > 0);
+		
+		pacemaker.deleteUsers();
+		assertEquals(0,pacemaker.getUsers().size());
+		assertEquals(0,pacemaker.getUserIndex().size());
+		assertEquals(0,pacemaker.getEmailIndex().size());
 	}
 
 	@Test
