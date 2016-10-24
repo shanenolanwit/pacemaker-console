@@ -2,6 +2,8 @@ package controllers;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -119,6 +121,104 @@ public class PacemakerAPITest
 		assertEquals(activities[0],  returnedActivity);
 		assertNotSame(activities[0], returnedActivity);
 	}  
+	
+	@Test
+	public void testListActivities()
+	{
+		User marge = pacemaker.getUserByEmail("marge@simpson.com");
+		Activity activity = pacemaker.createActivity(marge.id, activities[0].type, activities[0].location, 
+				activities[0].distance, activities[0].date, activities[0].duration);
+		
+		Activity activity2 = pacemaker.createActivity(marge.id, activities[2].type, activities[2].location, 
+				activities[2].distance, activities[2].date, activities[2].duration);
+		
+		Activity activity4 = pacemaker.createActivity(marge.id, activities[4].type, activities[4].location, 
+				activities[4].distance, activities[4].date, activities[4].duration);
+		
+		Collection<Activity> acts = pacemaker.listActivities(marge.id);
+		assertEquals(3, acts.size());
+		assertEquals(activity, acts.toArray()[0]);
+		assertEquals(activity2, acts.toArray()[1]);
+		assertEquals(activity4, acts.toArray()[2]);
+		
+		acts = pacemaker.listActivities(marge.id, "TYPE");
+		assertEquals(3, acts.size());
+		assertEquals(activity4, acts.toArray()[0]);
+		assertEquals(activity2, acts.toArray()[1]);
+		assertEquals(activity, acts.toArray()[2]);
+		
+		acts = pacemaker.listActivities(marge.id, "DURATION");
+		assertEquals(3, acts.size());
+		assertEquals(activity, acts.toArray()[0]);
+		assertEquals(activity2, acts.toArray()[1]);
+		assertEquals(activity4, acts.toArray()[2]);
+		
+		acts = pacemaker.listActivities(marge.id, "LOCATION");
+		assertEquals(3, acts.size());
+		assertEquals(activity, acts.toArray()[0]);
+		assertEquals(activity4, acts.toArray()[1]);
+		assertEquals(activity2, acts.toArray()[2]);
+		
+		acts = pacemaker.listActivities(marge.id, "DATE");
+		assertEquals(3, acts.size());
+		assertEquals(activity, acts.toArray()[0]);
+		assertEquals(activity2, acts.toArray()[1]);
+		assertEquals(activity4, acts.toArray()[2]);
+		
+		acts = pacemaker.listActivities(marge.id, "DISTANCE");
+		assertEquals(3, acts.size());
+		assertEquals(activity, acts.toArray()[0]);
+		assertEquals(activity2, acts.toArray()[1]);
+		assertEquals(activity4, acts.toArray()[2]);
+		
+		
+		
+		
+	}  
+	
+	@Test
+	public void testListUsers(){		
+		pacemaker = new PacemakerAPI(null);
+		pacemaker.createUser("ann","yoman","redroom@gmail.com","secret");
+		pacemaker.createUser("zara","brett","seven@gmail.com","secret");
+		pacemaker.createUser("triona","doyle","blah@gmail.com","secret");
+		pacemaker.createUser("nicola","goral","ng@gmail.com","secret");
+		
+		User user0 = pacemaker.getUserByEmail("redroom@gmail.com");
+		User user1 = pacemaker.getUserByEmail("seven@gmail.com");
+		User user2 = pacemaker.getUserByEmail("blah@gmail.com");
+		User user3 = pacemaker.getUserByEmail("ng@gmail.com");
+
+		Collection<User> users = pacemaker.listUsers("ID");
+		assertEquals(4, users.size());
+		
+		assertEquals(user0, users.toArray()[0]);		
+		assertEquals(user1, users.toArray()[1]);		
+		assertEquals(user2, users.toArray()[2]);		
+		assertEquals(user3, users.toArray()[3]);
+		
+		users = pacemaker.listUsers("FIRSTNAME");
+		assertEquals(4, users.size());
+		assertEquals(user0, users.toArray()[0]);		
+		assertEquals(user3, users.toArray()[1]);		
+		assertEquals(user2, users.toArray()[2]);		
+		assertEquals(user1, users.toArray()[3]);
+		
+		users = pacemaker.listUsers("LASTNAME");
+		assertEquals(4, users.size());
+		assertEquals(user1, users.toArray()[0]);		
+		assertEquals(user2, users.toArray()[1]);		
+		assertEquals(user3, users.toArray()[2]);		
+		assertEquals(user0, users.toArray()[3]);
+		
+		users = pacemaker.listUsers("EMAIL");
+		assertEquals(4, users.size());
+		assertEquals(user2, users.toArray()[0]);		
+		assertEquals(user3, users.toArray()[1]);		
+		assertEquals(user0, users.toArray()[2]);		
+		assertEquals(user1, users.toArray()[3]);
+	}  
+
 
 	@Test
 	public void testAddActivityWithSingleLocation()

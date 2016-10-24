@@ -3,12 +3,15 @@ package controllers;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.EmptyStackException;
+
 import org.junit.Test;
 import controllers.PacemakerAPI;
 import models.Activity;
 import models.Location;
 import models.User;
 import utils.BinarySerializer;
+import utils.FileLogger;
 import utils.JSONSerializer;
 import utils.Serializer;
 import utils.XMLSerializer;
@@ -155,5 +158,15 @@ public class PersistenceTest
 	    deleteFile (TESTDATASTORE_BINARY);
 
 	  }
+	  
+	  @Test
+	  public void testEmptyStackLoad() throws Exception {
+		pacemaker = new PacemakerAPI(new XMLSerializer());
+		FileLogger.LAST_MESSAGE = "";
+		pacemaker.load();
+		assertEquals("empty stack", FileLogger.LAST_MESSAGE.toLowerCase());
+		
+	  }
+	  
 	  
 }

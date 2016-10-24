@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 public class FileLogger
 {
   private static FileLogger logger;
+  public static String LAST_MESSAGE = "";
 
   private FileLogger()
   {
@@ -27,6 +28,7 @@ public class FileLogger
     try
     {
       PrintWriter writer = new PrintWriter(new FileWriter("log.txt", true));
+      LAST_MESSAGE = msg;
       writer.println(msg);
       writer.close();
     }
@@ -40,4 +42,8 @@ public class FileLogger
     }
     return (true);
   }
+  
+  
+  
+  
 }

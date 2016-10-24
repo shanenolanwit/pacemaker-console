@@ -9,6 +9,7 @@ import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.google.common.base.Optional;
 
@@ -18,6 +19,7 @@ import enums.UserSortFilter;
 import models.Activity;
 import models.Location;
 import models.User;
+import utils.FileLogger;
 import utils.Serializer;
 
 public class PacemakerAPI {
@@ -77,7 +79,7 @@ public class PacemakerAPI {
 	}
 	
 	public Collection<Activity> listActivities(Long id) {
-		return userIndex.get(id).activities.values();
+		return listActivities(id,ActivitySortFilter.ID.toString());
 	}
 
 	public Collection<Activity> listActivities(Long id, String sortBy) {
@@ -110,11 +112,11 @@ public class PacemakerAPI {
 			User.counter = (long) serializer.pop();
 			Activity.counter = (long) serializer.pop();
 
-			activitiesIndex = (Map<Long, Activity>) serializer.pop();
-			emailIndex = (Map<String, User>) serializer.pop();
-			userIndex = (Map<Long, User>) serializer.pop();
+			setActivitiesIndex( (Map<Long, Activity>) serializer.pop() );
+			setEmailIndex( (Map<String, User>) serializer.pop() );
+			setUserIndex( (Map<Long, User>) serializer.pop() );
 		} catch( EmptyStackException e ){
-			System.out.println("Empty Stack");
+			FileLogger.getLogger().log("Empty Stack");
 		}
 		
 	}

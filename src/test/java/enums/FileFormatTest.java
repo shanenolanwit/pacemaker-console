@@ -38,12 +38,12 @@ public class FileFormatTest {
 	
 	@Test(expected = Exception.class)
 	public void testBadIdentifierException(){
-		assertEquals(null,FileFormat.identify("j").getSerializer().getClass());
+		FileFormat.identify("j");
 	}
 	
 	@Test(expected = Exception.class)
 	public void testNullIdentifierException(){
-		assertEquals(null,FileFormat.identify(null).getSerializer().getClass());
+		FileFormat.identify(null);
 	}
 
 
