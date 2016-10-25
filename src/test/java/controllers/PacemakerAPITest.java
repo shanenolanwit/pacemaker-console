@@ -3,6 +3,7 @@ package controllers;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import models.Activity;
 import models.Location;
 import models.User;
 import utils.BinarySerializer;
+import utils.DateTimeUtils;
 import utils.JSONSerializer;
 import utils.XMLSerializer;
 
@@ -171,9 +173,40 @@ public class PacemakerAPITest
 		assertEquals(activity2, acts.toArray()[1]);
 		assertEquals(activity4, acts.toArray()[2]);
 		
+		acts = pacemaker.listActivitiesBetweenDates(activity.date, activity4.date);
+		assertEquals(3, acts.size());
 		
+		acts = pacemaker.listActivitiesBetweenDates(activity.date, activity2.date);
+		assertEquals(2, acts.size());
 		
+		acts = pacemaker.listActivitiesBetweenDates(activity.date, activity.date);
+		assertEquals(1, acts.size());
 		
+		acts = pacemaker.listActivitiesBetweenDates(
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2012 8:00:00"), 
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 8:45:00"));
+		assertEquals(0, acts.size());
+		
+		acts = pacemaker.listActivitiesBetweenDates(
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2012 8:00:00"), 
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:45:00"));
+		assertEquals(1, acts.size());
+		
+		acts = pacemaker.listActivitiesBetweenDates(
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2016 9:10:00"), 
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2017 9:00:00"));
+		assertEquals(0, acts.size());
+		
+		acts = pacemaker.listActivitiesBetweenDates(
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2016 8:10:00"), 
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2017 9:00:00"));
+		assertEquals(1, acts.size());
+		
+		//Dates in wrong order
+		acts = pacemaker.listActivitiesBetweenDates(
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2017 9:00:00"),
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2016 8:10:00"));
+		assertEquals(0, acts.size());
 	}  
 	
 	@Test

@@ -1,6 +1,10 @@
 package enums;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import comparators.UserEmailComparator;
 import comparators.UserFirstNameComparator;
@@ -39,6 +43,29 @@ public enum UserSortFilter {
 			
 		}
 		return exists;
+	}
+	
+	public static List<User> sort(Collection<User> users, String sortBy){
+		List<User> sortedUsers = new ArrayList<>(users);
+		if(sortBy.toLowerCase().equals("firstName")){
+			sortedUsers = users.stream().sorted((u1,u2)-> {
+				return u1.firstName.compareTo(u2.firstName);
+			}).collect(Collectors.toList());
+		} else if(sortBy.toLowerCase().equals("lastName")){
+			sortedUsers = users.stream().sorted((u1,u2)-> {
+				return u1.lastName.compareTo(u2.lastName);
+			}).collect(Collectors.toList());
+		} else if(sortBy.toLowerCase().equals("email")){
+			sortedUsers = users.stream().sorted((u1,u2)-> {
+				return u1.email.compareTo(u2.email);
+			}).collect(Collectors.toList());
+		} else {
+			sortedUsers = users.stream().sorted((u1,u2)-> {
+				return u1.id.compareTo(u2.id);
+			}).collect(Collectors.toList());
+		}
+		
+		return sortedUsers;
 	}
 	
 }

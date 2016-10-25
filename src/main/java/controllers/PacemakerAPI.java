@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Optional;
 
@@ -165,6 +166,19 @@ public class PacemakerAPI {
 
 	public void changeFileFormat(String fileFormat) {
 		setSerializer(FileFormat.identify(fileFormat).getSerializer());
+	}
+
+	public List<Location> listLocations(Long id) {
+		return getActivity(id).route;
+	}
+	
+	public List<Activity> listActivitiesBetweenDates(LocalDateTime start, LocalDateTime finish){
+		List<Activity> result = activitiesIndex.values().stream()
+				.filter(activity -> {
+					return ((activity.date.isAfter(start.minusNanos(1))) && (activity.date.isBefore(finish.plusNanos(1))));
+				})
+				.collect(Collectors.toList());
+		return result;
 	}
 
 }

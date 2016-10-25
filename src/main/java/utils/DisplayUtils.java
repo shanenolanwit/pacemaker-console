@@ -2,8 +2,10 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import models.Activity;
+import models.Location;
 import models.User;
 
 
@@ -19,6 +21,7 @@ public class DisplayUtils {
 	
 	public final static Object[] USER_TABLE_HEADER = new String[]{"ID","FIRSTNAME","LASTNAME","EMAIL","PASSWORD"};
 	public final static Object[] ACTIVITY_TABLE_HEADER = new String[]{"ID","TYPE","LOCATION","DISTANCE","STARTTIME","DURATION","ROUTE"};
+	public final static Object[] LOCATION_TABLE_HEADER = new String[]{"LATITUDE","LONGITUDE",""};
 	
 	public static RenderedTable listUsers(Collection<User> users){
 		V2_AsciiTable at = new V2_AsciiTable();
@@ -64,6 +67,22 @@ public class DisplayUtils {
 		Collection<Activity> activities = new ArrayList<>(1);
 		activities.add(a);
 		return listActivities(activities);
+	}
+
+	public static RenderedTable listLocations(List<Location> locations) {
+		V2_AsciiTable at = new V2_AsciiTable();
+		at.addStrongRule();
+		at.addRow(LOCATION_TABLE_HEADER);
+		at.addStrongRule();
+		locations.stream().forEach( l -> {				
+			at.addRow(l.latitude,l.longitude,GoogleParser.parseLatLong(l.latitude, l.longitude));	
+			at.addRule();
+		});
+
+		V2_AsciiTableRenderer rend = new V2_AsciiTableRenderer();
+		rend.setWidth(new WidthLongestWord());
+		RenderedTable rt = rend.render(at);
+		return rt;
 	}
 	
 

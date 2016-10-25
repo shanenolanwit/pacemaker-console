@@ -15,9 +15,11 @@ import enums.ActivitySortFilter;
 import enums.FileFormat;
 import enums.UserSortFilter;
 import models.Activity;
+import models.Location;
 import models.User;
 import utils.DateTimeUtils;
 import utils.DisplayUtils;
+import utils.GoogleParser;
 import utils.Serializer;
 import utils.XMLSerializer;
 
@@ -137,6 +139,21 @@ public class Main {
 	}
 	
 	/**
+	 * List the locations associated with a given activity
+	 * @param id The id of the activity you are interested in
+	 */
+	@Command(description = "List details of an activity")
+	public void listLocations(@Param(name = "activity-id") Long id) {
+		Optional<Activity> activity = Optional.fromNullable(paceApi.getActivity(id));
+		if (activity.isPresent()) {
+			List<Location> locations = paceApi.listLocations(id);
+			System.out.println(DisplayUtils.listLocations(locations));
+		} else {
+			System.out.println("Activity not found");
+		}
+	}
+	
+	/**
 	 * 
 	 * @param id
 	 * @param sortBy
@@ -178,10 +195,30 @@ public class Main {
 		Optional<User> user = Optional.fromNullable(paceApi.getUser(id));
 		if (user.isPresent() && DateTimeUtils.isValidDate(date) && DateTimeUtils.isValidDuration(duration)) {
 			System.out.println("ok");
-			paceApi.createActivity(id, type, location, distance, 
+			Activity activity = paceApi.createActivity(id, type, location, distance, 
 					DateTimeUtils.convertStringToLocalDateTime(date), DateTimeUtils.convertStringToDuration(duration));
+			System.out.println(DisplayUtils.listActivity(activity));
 		} else {
 			System.out.println("User not found");
+		}
+	}
+	
+	@Command(description = "Lists activities between two dates")
+	public void listActivities(@Param(name = "startDate") String start, 
+			@Param(name = "endDate") String finish) {
+
+		if (DateTimeUtils.isValidDate(start) && DateTimeUtils.isValidDate(finish)) {
+			System.out.println("ok");
+			List<Activity> activities = paceApi.listActivitiesBetweenDates( 
+					DateTimeUtils.convertStringToLocalDateTime(start), 
+					DateTimeUtils.convertStringToLocalDateTime(finish));
+			if(activities.size() < 1){
+				System.out.println("No activities found between those dates");
+			} else{
+				System.out.println(DisplayUtils.listActivities(activities));
+			}
+		} else {
+			System.out.println("Invalid Date Format");
 		}
 	}
 
@@ -199,7 +236,7 @@ public class Main {
 	}
 	
 	@Command(description = "Change File Format")
-	public void changeFileFormat(@Param(name = "file format: xml|json|binary|yaml") String fileFormat) {
+	public void changeFileFormat(@Param(name = "file format: xml|json|binary") String fileFormat) {
 		if(FileFormat.exists(fileFormat)){
 			paceApi.changeFileFormat(fileFormat);
 		} else {
