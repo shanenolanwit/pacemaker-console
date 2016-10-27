@@ -16,6 +16,7 @@ import models.User;
 import utils.BinarySerializer;
 import utils.DateTimeUtils;
 import utils.JSONSerializer;
+import utils.MySqlUtils;
 import utils.XMLSerializer;
 
 import static models.Fixtures.users;
@@ -279,7 +280,8 @@ public class PacemakerAPITest
 	    {
 	      pacemaker.addLocation(activityId, location.latitude, location.longitude);      
 	    }
-
+	    String x = MySqlUtils.createPacemakerScript(pacemaker.getUserIndex().values());
+	    System.out.println(x);
 	    Activity activity = pacemaker.getActivity(activityId);
 	    assertEquals (locations.length, activity.route.size());
 	    int i = 0;

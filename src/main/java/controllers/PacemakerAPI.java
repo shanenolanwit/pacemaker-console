@@ -9,7 +9,6 @@ import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Optional;
@@ -27,7 +26,7 @@ public class PacemakerAPI {
 	private Map<String, User> emailIndex = new HashMap<>();
 	private Map<Long, User> userIndex = new HashMap<>();
 	private Map<Long, Activity> activitiesIndex = new HashMap<>();
-	private Serializer serializer;
+	private Serializer serializer;	
 
 	public PacemakerAPI(Serializer serializer) {
 		this.serializer = serializer;
@@ -39,6 +38,7 @@ public class PacemakerAPI {
 
 	public void deleteUsers() {
 		userIndex.clear();
+		activitiesIndex.clear();
 		emailIndex.clear();
 	}
 
@@ -104,6 +104,9 @@ public class PacemakerAPI {
 	
 	public void deleteUser(User user) {
 		userIndex.remove(user.id);
+		for(Long activityId : user.activities.keySet()){
+			activitiesIndex.remove(activityId);
+		}
 		emailIndex.remove(user.email);
 	}
 

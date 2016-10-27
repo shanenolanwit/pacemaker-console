@@ -22,7 +22,7 @@ public class LocationTest {
 		Object x = locations[0];
 		assertTrue(locations[0].equals(x));
 		assertFalse(locations[0].equals(locations[1]));
-		assertFalse(locations[0].equals(new String("Hello World")));
+		assertFalse(x.equals(new String("Hello World")));
 		Location sameLatA = new Location(23.3, 33.3);
 		Location sameLatB = new Location(23.3, 33.4);
 		Location sameLongA = new Location(25.0, 33.3);
