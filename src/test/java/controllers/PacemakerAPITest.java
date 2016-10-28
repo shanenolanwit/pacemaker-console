@@ -280,8 +280,7 @@ public class PacemakerAPITest
 	    {
 	      pacemaker.addLocation(activityId, location.latitude, location.longitude);      
 	    }
-	    String x = MySqlUtils.createPacemakerScript(pacemaker.getUserIndex().values());
-	    System.out.println(x);
+	    
 	    Activity activity = pacemaker.getActivity(activityId);
 	    assertEquals (locations.length, activity.route.size());
 	    int i = 0;

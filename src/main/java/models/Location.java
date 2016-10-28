@@ -8,7 +8,7 @@ import com.google.common.base.Objects;
 
 public class Location implements Serializable {
 
-	static Long counter = 0l;
+	public static Long counter = 0l;
 	public Long id;
 	public Double longitude;
 	public Double latitude;
