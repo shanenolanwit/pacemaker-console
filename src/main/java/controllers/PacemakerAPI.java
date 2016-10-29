@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Optional;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 
 import enums.ActivitySortFilter;
 import enums.FileFormat;
@@ -19,7 +25,9 @@ import enums.UserSortFilter;
 import models.Activity;
 import models.Location;
 import models.User;
+import utils.DateTimeUtils;
 import utils.FileLogger;
+import utils.MySqlUtils;
 import utils.Serializer;
 
 public class PacemakerAPI {
@@ -112,18 +120,22 @@ public class PacemakerAPI {
 
 	@SuppressWarnings("unchecked")
 	public void load() throws Exception {
+		serializer.read();
 		try{
-			User.counter = (long) serializer.pop();
-			Activity.counter = (long) serializer.pop();
-
-			setActivitiesIndex( (Map<Long, Activity>) serializer.pop() );
-			setEmailIndex( (Map<String, User>) serializer.pop() );
+			User.counter = ((Number)serializer.pop()).longValue();
+			Activity.counter = ((Number)serializer.pop()).longValue();			
+			setActivitiesIndex( (Map<Long, Activity>) serializer.pop() );			
+			setEmailIndex( (Map<String, User>) serializer.pop() );			
 			setUserIndex( (Map<Long, User>) serializer.pop() );
 		} catch( EmptyStackException e ){
 			FileLogger.getLogger().log("Empty Stack");
 		}
 		
 	}
+	
+	public File mysqlDump(){
+		return MySqlUtils.writeToFile(getUsers());		
+	}	
 
 	public void store() throws Exception {
 		serializer.push(userIndex);

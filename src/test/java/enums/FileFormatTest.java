@@ -7,6 +7,7 @@ import org.junit.Test;
 import utils.BinarySerializer;
 import utils.JSONSerializer;
 import utils.XMLSerializer;
+import utils.YAMLSerializer;
 
 public class FileFormatTest {
 
@@ -24,6 +25,10 @@ public class FileFormatTest {
 		assertEquals(JSONSerializer.class,FileFormat.identify("JsOn").getSerializer().getClass());
 		assertEquals(JSONSerializer.class,FileFormat.identify("json").getSerializer().getClass());
 		
+		assertEquals(YAMLSerializer.class,FileFormat.identify("YamL").getSerializer().getClass());
+		assertEquals(YAMLSerializer.class,FileFormat.identify("YAML").getSerializer().getClass());
+		assertEquals(YAMLSerializer.class,FileFormat.identify("yaml").getSerializer().getClass());
+		
 	}
 	
 	@Test
@@ -31,6 +36,7 @@ public class FileFormatTest {
 		assertTrue(FileFormat.exists("binary"));
 		assertTrue(FileFormat.exists("XML"));
 		assertTrue(FileFormat.exists("Json"));
+		assertTrue(FileFormat.exists("yamL"));
 		assertFalse(FileFormat.exists("blah"));
 		assertFalse(FileFormat.exists(""));
 		assertFalse(FileFormat.exists(null));

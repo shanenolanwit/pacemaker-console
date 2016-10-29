@@ -15,6 +15,7 @@ import utils.FileLogger;
 import utils.JSONSerializer;
 import utils.Serializer;
 import utils.XMLSerializer;
+import utils.YAMLSerializer;
 
 import static models.Fixtures.*;
 
@@ -24,6 +25,7 @@ public class PersistenceTest
 	private static final String TESTDATASTORE_XML = "testdatastore.xml";
 	private static final String TESTDATASTORE_JSON = "testdatastore.json";
 	private static final String TESTDATASTORE_BINARY = "testdatastore.bin";
+	private static final String TESTDATASTORE_YAML = "testdatastore.yaml";
 	PacemakerAPI pacemaker;
 	
 	void populate (PacemakerAPI pacemaker){
@@ -117,8 +119,9 @@ public class PersistenceTest
 	    pacemaker2.load();
 	    
 	    assertTrue(pacemaker.getActivitiesIndex().keySet().equals(pacemaker2.getActivitiesIndex().keySet()));	    
-	    assertTrue(pacemaker.getUserIndex().keySet().equals(pacemaker2.getUserIndex().keySet()));	    
-	    assertTrue(pacemaker.getEmailIndex().keySet().equals(pacemaker2.getEmailIndex().keySet()));	    
+	        
+	    assertTrue(pacemaker.getEmailIndex().keySet().equals(pacemaker2.getEmailIndex().keySet()));	  
+	    assertEquals(pacemaker.getUserIndex(),(pacemaker2.getUserIndex()));	
 
 	    assertEquals (pacemaker.getUsers().size(), pacemaker2.getUsers().size());
 	    for (User user : pacemaker.getUsers())
@@ -160,13 +163,36 @@ public class PersistenceTest
 	  }
 	  
 	  @Test
-	  public void testEmptyStackLoad() throws Exception {
-		pacemaker = new PacemakerAPI(new XMLSerializer());
-		FileLogger.LAST_MESSAGE = "";
-		pacemaker.load();
-		assertEquals("empty stack", FileLogger.LAST_MESSAGE.toLowerCase());
-		
+	  public void testYAMLSerializer() throws Exception
+	  { 
+	   
+	    deleteFile (TESTDATASTORE_YAML);
+
+	    Serializer serializer = new YAMLSerializer(new File (TESTDATASTORE_YAML));
+
+	    pacemaker = new PacemakerAPI(serializer); 
+	    populate(pacemaker);
+	    pacemaker.store();
+
+	    PacemakerAPI pacemaker2 =  new PacemakerAPI(serializer);
+	    pacemaker2.load();
+
+	    assertEquals(pacemaker.getActivitiesIndex(),pacemaker2.getActivitiesIndex());	    
+	    assertTrue(pacemaker.getActivitiesIndex().keySet().equals(pacemaker2.getActivitiesIndex().keySet()));	    
+	    assertTrue(pacemaker.getUserIndex().keySet().equals(pacemaker2.getUserIndex().keySet()));	    
+	    assertTrue(pacemaker.getEmailIndex().keySet().equals(pacemaker2.getEmailIndex().keySet()));
+
+	    assertEquals (pacemaker.getUsers().size(), pacemaker2.getUsers().size());
+	    for (User user : pacemaker.getUsers())
+	    {
+	      assertTrue (pacemaker2.getUsers().contains(user));
+	    }
+	   
+	    deleteFile (TESTDATASTORE_YAML);
+
 	  }
+	  
+	 
 	  
 	  
 }

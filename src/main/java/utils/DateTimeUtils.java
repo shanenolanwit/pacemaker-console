@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
+import com.google.gson.JsonObject;
+
 public class DateTimeUtils {
 	
 	public static final String DATE_TIME_FORMAT = "dd:MM:yyyy H:mm:ss";
@@ -26,7 +28,7 @@ public class DateTimeUtils {
 			LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
 			valid = true;
 		}catch(DateTimeParseException | NullPointerException e){
-			System.out.println("Invalid date pattern - please use " + DATE_TIME_FORMAT);
+			FileLogger.getLogger().log("Invalid date : " + date);
 		}
 		return valid;
 		
@@ -71,6 +73,33 @@ public class DateTimeUtils {
 		}		
 		sb.append(seconds + " second(s)");
 		return sb.toString();
+	}
+	
+	
+	public static LocalDateTime convertJsonDateTime(JsonObject json){
+		StringBuilder sb = new StringBuilder();
+		JsonObject date = json.get("date").getAsJsonObject();
+		JsonObject time = json.get("time").getAsJsonObject();
+		sb.append(String.format("%02d", date.get("day").getAsInt()));
+		sb.append(":");
+		sb.append(String.format("%02d", date.get("month").getAsInt()));
+		sb.append(":");
+		sb.append(String.format("%04d", date.get("year").getAsInt()));
+		sb.append(" ");
+		sb.append(String.format("%02d", time.get("hour").getAsInt()));
+		sb.append(":");
+		sb.append(String.format("%02d", time.get("minute").getAsInt()));
+		sb.append(":");
+		sb.append(String.format("%02d", time.get("second").getAsInt()));
+		return convertStringToLocalDateTime(sb.toString());
+	}
+
+	public static Duration convertJsonDuration(JsonObject json) {
+		StringBuilder sb = new StringBuilder("0:");
+		sb.append(json.get("seconds").getAsInt());
+		sb.append(":0");
+		return Duration.ofSeconds(json.get("seconds").getAsInt());
+//		return convertStringToDuration(sb.toString());
 	}
 
 }

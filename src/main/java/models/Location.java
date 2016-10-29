@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 import com.google.common.base.Objects;
 
+import utils.FileLogger;
+
 public class Location implements Serializable {
 
 	public static Long counter = 0l;
@@ -35,7 +37,7 @@ public class Location implements Serializable {
 			equal = Objects.equal(latitude, other.latitude)
 					&& Objects.equal(longitude, other.longitude);
 		} else {
-			System.out.println("Expected Location, got " + obj.getClass().getSimpleName());
+			FileLogger.getLogger().log("Expected Location, got " + obj.getClass().getSimpleName());
 		}
 		return equal;
 	}

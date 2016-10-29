@@ -1,25 +1,18 @@
 package enums;
 
-import java.util.Comparator;
-
-import comparators.ActivityDateComparator;
-import comparators.ActivityDistanceComparator;
-import comparators.ActivityDurationComparator;
-import comparators.ActivityIdComparator;
-import comparators.ActivityLocationComparator;
-import comparators.ActivityTypeComparator;
-import models.Activity;
 import utils.BinarySerializer;
 import utils.JSONSerializer;
 import utils.Serializer;
 import utils.XMLSerializer;
+import utils.YAMLSerializer;
 
 
 public enum FileFormat {	
 	
 	BINARY(new BinarySerializer()),
 	JSON(new JSONSerializer()),
-	XML(new XMLSerializer());
+	XML(new XMLSerializer()),
+	YAML(new YAMLSerializer());
 	
 	private final Serializer serializer;
 	

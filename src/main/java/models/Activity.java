@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import com.google.common.base.Objects;
 
 import utils.DateTimeUtils;
+import utils.FileLogger;
 
 public class Activity implements Serializable {
 
@@ -48,7 +49,7 @@ public class Activity implements Serializable {
 					&& Objects.equal(duration, other.duration)
 					&& Objects.equal(route, other.route);
 		} else {
-			System.out.println("Expected Location, got " + obj.getClass().getSimpleName());
+			FileLogger.getLogger().log("Expected Activity, got " + obj.getClass().getSimpleName());
 		}
 		return equal;
 	}

@@ -47,11 +47,11 @@ public enum UserSortFilter {
 	
 	public static List<User> sort(Collection<User> users, String sortBy){
 		List<User> sortedUsers = new ArrayList<>(users);
-		if(sortBy.toLowerCase().equals("firstName")){
+		if(sortBy.toLowerCase().equals("firstname")){
 			sortedUsers = users.stream().sorted((u1,u2)-> {
 				return u1.firstName.compareTo(u2.firstName);
 			}).collect(Collectors.toList());
-		} else if(sortBy.toLowerCase().equals("lastName")){
+		} else if(sortBy.toLowerCase().equals("lastname")){
 			sortedUsers = users.stream().sorted((u1,u2)-> {
 				return u1.lastName.compareTo(u2.lastName);
 			}).collect(Collectors.toList());

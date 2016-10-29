@@ -3,11 +3,10 @@ package controllers;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 
 import controllers.PacemakerAPI;
 import models.Activity;
@@ -16,7 +15,6 @@ import models.User;
 import utils.BinarySerializer;
 import utils.DateTimeUtils;
 import utils.JSONSerializer;
-import utils.MySqlUtils;
 import utils.XMLSerializer;
 
 import static models.Fixtures.users;
@@ -289,6 +287,8 @@ public class PacemakerAPITest
 	      assertEquals(location, locations[i]);
 	      i++;
 	    }
+	    
+	    
 	  }
 
 }

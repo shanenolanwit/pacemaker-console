@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.google.common.base.Objects;
 
+import utils.FileLogger;
+
 public class User implements Serializable {
 	public static Long counter = 0l;
 	public Long id;
@@ -44,7 +46,7 @@ public class User implements Serializable {
 					&& Objects.equal(password, other.password)
 					&& Objects.equal(activities, other.activities);
 		} else {
-			System.out.println("Expected User, got "
+			FileLogger.getLogger().log("Expected User, got "
 					+ obj.getClass().getSimpleName());
 		}
 		return equal;

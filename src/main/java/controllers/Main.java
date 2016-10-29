@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -236,7 +237,7 @@ public class Main {
 	}
 	
 	@Command(description = "Change File Format")
-	public void changeFileFormat(@Param(name = "file format: xml|json|binary") String fileFormat) {
+	public void changeFileFormat(@Param(name = "file format: xml|json|binary|yaml") String fileFormat) {
 		if(FileFormat.exists(fileFormat)){
 			paceApi.changeFileFormat(fileFormat);
 		} else {
@@ -259,6 +260,22 @@ public class Main {
 	public void store() {		
 			try {
 				paceApi.store();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
+	@Command(description = "Export the data as a MySQL script")
+	public void mysqldump() {		
+			try {
+				File f = paceApi.mysqlDump();
+				String msg = "MYSQLDUMP : ";
+				if(f.exists()){
+					msg += f.getAbsolutePath();
+				} else{
+					msg += "FAILED";
+				}
+				System.out.println(msg);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

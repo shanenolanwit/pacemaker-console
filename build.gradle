@@ -20,6 +20,7 @@ dependencies {
     compile "com.esotericsoftware.yamlbeans:yamlbeans:1.09"
     compile "joda-time:joda-time:2.9.4"
     compile "de.vandermeer:asciitable:0.2.5"
+    
     testCompile "junit:junit:4.12"
 }
 

@@ -3,6 +3,8 @@ package utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Stack;
+import java.util.StringJoiner;
 
 import models.Activity;
 import models.Location;
@@ -83,6 +85,37 @@ public class DisplayUtils {
 		rend.setWidth(new WidthLongestWord());
 		RenderedTable rt = rend.render(at);
 		return rt;
+	}
+	
+	public static DisplayTree getPacemakerTree(Collection<User> users){
+		final DisplayTree pdt = new DisplayTree("pacemaker",new ArrayList<>());
+		users.forEach(u->{
+			final DisplayTree udt = new DisplayTree(u.firstName + " " + u.lastName, new ArrayList<>());
+			udt.getChildren().add(new DisplayTree(u.email,new ArrayList<>()));
+			final DisplayTree activityListDt = new DisplayTree("activities", new ArrayList<>());
+		   	u.activities.values().forEach(a->{
+		   		
+		   		DisplayTree activityDt = new DisplayTree(a.type, new ArrayList<>());
+		   		DisplayTree locationDt = new DisplayTree(a.location, new ArrayList<>());
+		   		StringJoiner sj = new StringJoiner("],[", "[", "]");
+		   		a.route.forEach(l ->{
+		   			sj.add(l.latitude + "," + l.longitude);		   			
+		   		});
+		   		locationDt.getChildren().add(new DisplayTree(String.valueOf(a.distance), new ArrayList<>()));
+		   		if(a.route.size() > 0){
+		   			locationDt.getChildren().add(new DisplayTree(sj.toString(),new ArrayList<>()));
+		   		}
+		   		activityDt.getChildren().add(locationDt);
+		   		activityListDt.getChildren().add(activityDt);
+		   		
+		   	});
+		   	if(u.activities.size() > 0){
+		   		udt.getChildren().add(activityListDt);
+		   	}
+		   	
+		   	pdt.getChildren().add(udt);
+		});
+		return pdt;
 	}
 	
 

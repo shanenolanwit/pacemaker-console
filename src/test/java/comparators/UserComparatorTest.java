@@ -3,6 +3,7 @@ package comparators;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import enums.ActivitySortFilter;
+import enums.UserSortFilter;
+import enums.UserSortFilterTest;
 import models.Activity;
 import models.User;
 import utils.DateTimeUtils;
@@ -69,6 +72,16 @@ public class UserComparatorTest {
 		assertEquals(u4, users.get(3));
 		assertEquals(u5, users.get(4));
 	}
+	
+	@Test
+	public void testIdSortFilter() {
+		List<User> lu = UserSortFilter.sort(users, "id");
+		assertEquals(u1, lu.get(0));
+		assertEquals(u2, lu.get(1));
+		assertEquals(u3, lu.get(2));
+		assertEquals(u4, lu.get(3));
+		assertEquals(u5, lu.get(4));
+	}
 
 	@Test
 	public void testFirstNameComparator() {
@@ -78,6 +91,16 @@ public class UserComparatorTest {
 		assertEquals(u3, users.get(2));
 		assertEquals(u4, users.get(3));
 		assertEquals(u5, users.get(4));
+	}
+	
+	@Test
+	public void testFirstNameSortFilter() {
+		List<User> lu = UserSortFilter.sort(users, "firstname");
+		assertEquals(u2, lu.get(0));
+		assertEquals(u1, lu.get(1));
+		assertEquals(u3, lu.get(2));
+		assertEquals(u4, lu.get(3));
+		assertEquals(u5, lu.get(4));
 	}
 
 	@Test
@@ -89,6 +112,16 @@ public class UserComparatorTest {
 		assertEquals(u2, users.get(3));
 		assertEquals(u1, users.get(4));
 	}
+	
+	@Test
+	public void testLastNameSortFilter() {
+		List<User> lu = UserSortFilter.sort(users, "lastname");
+		assertEquals(u5, lu.get(0));
+		assertEquals(u4, lu.get(1));
+		assertEquals(u3, lu.get(2));
+		assertEquals(u2, lu.get(3));
+		assertEquals(u1, lu.get(4));
+	}
 
 	@Test
 	public void testEmailComparator() {
@@ -98,6 +131,16 @@ public class UserComparatorTest {
 		assertEquals(u3, users.get(2));
 		assertEquals(u2, users.get(3));
 		assertEquals(u5, users.get(4));
+	}
+	
+	@Test
+	public void testEmailSortFilter() {
+		List<User> lu = UserSortFilter.sort(users, "email");
+		assertEquals(u1, lu.get(0));
+		assertEquals(u4, lu.get(1));
+		assertEquals(u3, lu.get(2));
+		assertEquals(u2, lu.get(3));
+		assertEquals(u5, lu.get(4));
 	}
 
 }

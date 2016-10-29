@@ -57,7 +57,7 @@ public class MySqlUtils {
 		return scriptBuilder.toString();
 	}
 
-	public static void writeToFile(Collection<User> users) {
+	public static File writeToFile(Collection<User> users) {
 		try {
 			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("pacemaker.sql", false)));
 			writer.println(MySqlUtils.createPacemakerScript(users));
@@ -65,6 +65,7 @@ public class MySqlUtils {
 		} catch (IOException ex) {
 			System.out.println("Can not write to file");
 		}
+		return new File("pacemaker.sql");
 	}
 
 }
