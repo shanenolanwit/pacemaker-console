@@ -48,3 +48,7 @@ jacocoTestReport {
         html.destination "${buildDir}/reports/jacoco/html"
     }
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}

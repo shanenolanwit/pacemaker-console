@@ -280,6 +280,16 @@ public class Main {
 				e.printStackTrace();
 			}
 	}
+	
+	@Command(description = "Prints a tree diagram representing the users")
+	public void printTree(){
+		List<User> users = new ArrayList<User>(paceApi.getUsers());
+		if (!users.isEmpty()) {
+			DisplayUtils.getPacemakerTree(users).print();
+		} else {
+			System.out.println("No users found");
+		}
+	}
 
 	public Main() throws Exception {
 		

@@ -1,0 +1,12 @@
+cu homer simpson homer@simpson.com secret
+cu marge simpson marge@simpson.com secret
+aa 0 walk fridge .001 "12:10:2014 9:00:00" 0:00:30
+aa 0 walk bar 1.0 "12:10:2013 9:10:00" 0:30:00
+aa 0 jump bed 0.4 "12:10:2015 9:00:00" 0:05:05
+aa 0 run work 2.2 "12:10:2013 9:00:00" 0:45:05
+aa 0 run work 2.2 "12:11:2013 9:00:00" 0:45:07
+aa 1 walk shop 2.5 "12:10:2013 9:00:00" 1:10:00
+aa 1 cycle shop 4.5 "12:10:2013 9:00:00" 0:20:20
+al 3 -7.1386597 52.245624
+al 3 -7.1186276 52.2511201
+al 3 -7.1181877 52.255698
