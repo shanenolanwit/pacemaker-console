@@ -12,7 +12,7 @@ import models.Activity;
 import utils.FileLogger;
 
 /**
- * 
+ * ActivitySortFilter links enum values to comparators
  * @author Shane Nolan
  *  Available Filters
  *  <ul>
