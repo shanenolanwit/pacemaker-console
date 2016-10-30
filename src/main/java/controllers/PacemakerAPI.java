@@ -22,6 +22,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import enums.ActivitySortFilter;
 import enums.FileFormat;
 import enums.UserSortFilter;
+import exceptions.ValidationException;
 import models.Activity;
 import models.Location;
 import models.User;
@@ -52,14 +53,15 @@ public class PacemakerAPI {
 		emailIndex.clear();
 	}
 
-	public User createUser(String firstName, String lastName, String email, String password) {
+	public User createUser(String firstName, String lastName, String email, String password) throws ValidationException {
 		User user = new User(firstName, lastName, email, password);
 		emailIndex.put(email, user);
 		userIndex.put(user.id, user);
 		return user;
 	}
 
-	public Activity createActivity(Long id, String type, String location, double distance, LocalDateTime date, Duration duration) {
+	public Activity createActivity(Long id, String type, String location, 
+			double distance, LocalDateTime date, Duration duration) throws ValidationException {
 		Activity activity = null;
 		Optional<User> user = Optional.fromNullable(userIndex.get(id));
 		if (user.isPresent()) {
@@ -196,6 +198,14 @@ public class PacemakerAPI {
 				})
 				.collect(Collectors.toList());
 		return result;
+	}
+
+	public boolean duplicateUserExists(String firstName, String lastName, String email) {
+		return getUserIndex().values().stream().anyMatch( u -> {
+			return u.firstName.equalsIgnoreCase(firstName)
+					&& u.lastName.equalsIgnoreCase(lastName)
+					&& u.email.equalsIgnoreCase(email);
+		});
 	}
 
 }

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 
 import controllers.PacemakerAPI;
+import exceptions.ValidationException;
 import models.Activity;
 import models.Location;
 import models.User;
@@ -26,7 +27,7 @@ public class PacemakerAPITest
 	private PacemakerAPI pacemaker;
 
 	@Before
-	public void setup()
+	public void setup() throws ValidationException
 	{
 		pacemaker = new PacemakerAPI(null);
 		for (User user : users)
@@ -42,7 +43,7 @@ public class PacemakerAPITest
 	}
 
 	@Test
-	public void testUser()
+	public void testUser() throws ValidationException
 	{
 		assertEquals (users.length, pacemaker.getUsers().size());
 		pacemaker.createUser("homer", "simpson", "homer@simpson.com", "secret");
@@ -51,7 +52,7 @@ public class PacemakerAPITest
 	}  
 
 	@Test
-	public void testEquals()
+	public void testEquals() throws ValidationException
 	{
 		User homer  = new User ("homer", "simpson", "homer@simpson.com",  "secret");
 		User homer2 = new User ("homer", "simpson", "homer@simpson.com",  "secret"); 
@@ -113,7 +114,7 @@ public class PacemakerAPITest
 	}
 
 	@Test
-	public void testAddActivity()
+	public void testAddActivity() throws ValidationException
 	{
 		User marge = pacemaker.getUserByEmail("marge@simpson.com");
 		Activity activity = pacemaker.createActivity(marge.id, activities[0].type, activities[0].location, 
@@ -124,7 +125,7 @@ public class PacemakerAPITest
 	}  
 	
 	@Test
-	public void testListActivities()
+	public void testListActivities() throws ValidationException
 	{
 		User marge = pacemaker.getUserByEmail("marge@simpson.com");
 		Activity activity = pacemaker.createActivity(marge.id, activities[0].type, activities[0].location, 
@@ -209,7 +210,7 @@ public class PacemakerAPITest
 	}  
 	
 	@Test
-	public void testListUsers(){		
+	public void testListUsers() throws ValidationException{		
 		pacemaker = new PacemakerAPI(null);
 		pacemaker.createUser("ann","yoman","redroom@gmail.com","secret");
 		pacemaker.createUser("zara","brett","seven@gmail.com","secret");
@@ -253,7 +254,7 @@ public class PacemakerAPITest
 
 
 	@Test
-	public void testAddActivityWithSingleLocation()
+	public void testAddActivityWithSingleLocation() throws ValidationException
 	{
 		User marge = pacemaker.getUserByEmail("marge@simpson.com");
 		Long activityId = pacemaker.createActivity(marge.id, activities[0].type, activities[0].location, 
@@ -268,7 +269,7 @@ public class PacemakerAPITest
 	}	
 	
 	@Test
-	  public void testAddActivityWithMultipleLocation()
+	  public void testAddActivityWithMultipleLocation() throws ValidationException
 	  {
 	    User marge = pacemaker.getUserByEmail("marge@simpson.com");
 	    Long activityId = pacemaker.createActivity(marge.id, activities[0].type, activities[0].location, 

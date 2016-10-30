@@ -2,22 +2,185 @@ package models;
 
 import static org.junit.Assert.*;
 
+import static org.hamcrest.core.Is.is;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+
+import exceptions.ValidationException;
+
 import static models.Fixtures.users;
 import static models.Fixtures.activities;
 
 public class UserTest {
-	User homer = new User("homer", "simpson", "homer@simpson.com", "secret");
+	
+	////FIRST NAME TESTS
+	
+	@Test
+	public void firstNameWithNumbersThrowsException(){
+		try{
+			new User("d8","wayne","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid first name"));
+		}
+	}
+	
+	@Test
+	public void firstNameWithInvalidSymbolsThrowsException(){
+		try{
+			new User("b@w","wayne","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid first name"));
+		}
+	}
+	
+	@Test
+	public void firstNameWithInvalidStartThrowsException(){
+		try{
+			new User("-batman","wayne","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid first name"));
+		}
+	}
+	
+	@Test
+	public void firstNameWithInvalidLengthThrowsException(){
+		try{
+			new User("","wayne","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid first name"));
+		}
+	}
+	
+	@Test
+	public void firstNameWithValidSymbol(){
+		try{
+			User u = new User("bruce-batman","wayne","bw@gmail.com","lklk");
+			assertThat(u.firstName, is("bruce-batman"));
+		} catch(ValidationException e){
+			fail("Validation should not have failed");
+			
+		}
+	}
+	
+	////LAST NAME TESTS
+	
+	@Test
+	public void lastNameWithNumbersThrowsException(){
+		try{
+			new User("bruce","w4yne","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid last name"));
+		}
+	}
+	
+	@Test
+	public void lastNameWithInvalidSymbolsThrowsException(){
+		try{
+			new User("bruce","way#ne","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid last name"));
+		}
+	}
+	
+	@Test
+	public void lastNameWithInvalidStartThrowsException(){
+		try{
+			new User("bruce","'wayne","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid last name"));
+		}
+	}
+	
+	@Test
+	public void lastNameWithInvalidLengthThrowsException(){
+		try{
+			new User("bruce","","bw@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid last name"));
+		}
+	}
+	
+	@Test
+	public void lastNameWithValidSymbol(){
+		try{
+			User u = new User("bruce","w'ayne","bw@gmail.com","lklk");
+			assertThat(u.lastName, is("w'ayne"));
+		} catch(ValidationException e){
+			fail("Validation should not have failed");
+			
+		}
+	}
+	
+	
+	////EMAIL TESTS
+	
+	@Test
+	public void emailWithInvalidDomainThrowsException(){
+		try{
+			new User("bruce","wayne","bw@gmail.6","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid email address"));
+		}
+	}
+	
+	@Test
+	public void emailWithInvalidIdentifierDomainThrowsException(){
+		try{
+			new User("bruce","wayne","@gmail.com","lklk");
+			fail("Validation should have failed");
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid email address"));
+		}
+	}
+	
+	
+	@Test
+	public void emailWithValidSymbol(){
+		try{
+			User u = new User("bruce","wayne","bw@gmail.com","lklk");
+			assertThat(u.email, is("bw@gmail.com"));
+		} catch(ValidationException e){
+			fail("Validation should not have failed");
+			
+		}
+	}
+	
+	////PASSWORD TESTS
+	@Test
+	public void blankPasswordThrowsException(){
+		try{
+			new User("bruce","wayne","bw@gmail.com","");
+			fail("Validation should have failed");
+			
+		} catch(ValidationException e){
+			assertThat(e.getMessage(), is("Invalid password"));
+			
+		}
+	}
+	
+	
+	
+	
 
 	@Test
-	public void testCreate() {
-		assertEquals("homer", homer.firstName);
-		assertEquals("simpson", homer.lastName);
-		assertEquals("homer@simpson.com", homer.email);
-		assertEquals("secret", homer.password);
+	public void testCreate() throws ValidationException {
+		User homer = new User("homer", "simpson", "homer@simpson.com", "secret");
+		assertThat(homer.firstName, is("homer"));
+		assertThat(homer.lastName, is("simpson"));
+		assertThat(homer.email, is("homer@simpson.com"));
+		assertThat(homer.password, is("secret"));
+		
 	}
 
 	@Test
@@ -32,7 +195,7 @@ public class UserTest {
 	@Test
 	public void testEquality() {
 		Object x = users[0];
-		//Comparing identical objetcs
+		//Comparing identical objects
 		assertTrue(users[0].equals(x));
 		//Comparing like objects
 		assertFalse(users[0].equals(users[1]));
@@ -70,7 +233,8 @@ public class UserTest {
 	}
 
 	@Test
-	public void testToString() {
+	public void testToString() throws ValidationException {
+		User homer = new User("homer", "simpson", "homer@simpson.com", "secret");
 		assertEquals("User{" + homer.id + ", homer, simpson, secret, homer@simpson.com, {}}", homer.toString());
 	}
 

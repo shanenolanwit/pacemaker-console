@@ -66,7 +66,6 @@ public enum ActivitySortFilter {
 	 * Identifies which {@link enums.ActivitySortFilter} to use based on a given input
 	 * @param identifier  A string representing a {@link enums.ActivitySortFilter}
 	 * <p>The identifier is not case sensitive
-	 * <br/>
 	 * Valid identifiers are (DATE|DISTANCE|TYPE|DATE|DURATION|LOCATION|ID)
 	 * @return  {@link enums.ActivitySortFilter} associated with the given identifier
 	 */

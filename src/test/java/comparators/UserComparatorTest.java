@@ -14,6 +14,7 @@ import org.junit.Test;
 import enums.ActivitySortFilter;
 import enums.UserSortFilter;
 import enums.UserSortFilterTest;
+import exceptions.ValidationException;
 import models.Activity;
 import models.User;
 import utils.DateTimeUtils;
@@ -35,7 +36,7 @@ public class UserComparatorTest {
 	List<User> users;
 
 	@Before
-	public void setup() {
+	public void setup() throws ValidationException {
 		u1 = new User("anna", "thompson", "annaT@gmail.com", "secret");
 		u2 = new User("ann", "simpson", "someone@yahoo.com", "secret");
 		u3 = new User("catherine", "nolan", "someone@gmail.com", "secret");

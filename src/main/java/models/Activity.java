@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import com.google.common.base.Objects;
 
+import exceptions.ValidationException;
 import utils.DateTimeUtils;
 import utils.FileLogger;
 
@@ -28,13 +29,25 @@ public class Activity implements Serializable {
 	public Activity() {
 	}
 
-	public Activity(String type, String location, double distance, LocalDateTime date, Duration duration) {
-		this.id = counter++;
-		this.type = type;
-		this.location = location;
-		this.distance = distance;
+	public Activity(String type, String location, double distance, 
+			LocalDateTime date, Duration duration) throws ValidationException {
+		if(!type.isEmpty()){
+			this.type = type;
+		} else {
+			throw new ValidationException("Invalid type");
+		} if(!location.isEmpty()){
+			this.location = location;
+		} else {
+			throw new ValidationException("Invalid location");
+		} if(distance > 0){
+			this.distance = distance;
+		} else {
+			throw new ValidationException("Invalid distance");
+		}
+		
 		this.date = date;
 		this.duration = duration;
+		this.id = counter++;
 	}
 
 	@Override

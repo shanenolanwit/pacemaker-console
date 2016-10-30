@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import exceptions.ValidationException;
 import models.Activity;
 import models.Location;
 import models.User;
@@ -53,7 +54,7 @@ class PacemakerModelTest {
 
     @Test
     @DisplayName("Testing assert alls")
-    void assertAllTest(TestInfo testInfo) {
+    void assertAllTest(TestInfo testInfo) throws ValidationException {
     	User u = new User ("homer", "simpson", "homer@simpson.com", "secret");
     	assertAll( "user properties", () -> {
     		  assertEquals( "homer", u.firstName, "first name match");

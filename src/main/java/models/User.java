@@ -5,12 +5,20 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Objects;
 
+import exceptions.ValidationException;
 import utils.FileLogger;
 
+@SuppressWarnings("serial")
 public class User implements Serializable {
+	
+	public final static String FIRSTNAME_VALIDATION_PATTERN = "^[a-zA-Z][\\s-a-zA-Z]+$";
+	public final static String LASTNAME_VALIDATION_PATTERN = "^[a-zA-Z][\\s-'a-zA-Z]+$";
+	public final static String EMAIL_VALIDATION_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+	
 	public static Long counter = 0l;
 	public Long id;
 	public String firstName;
@@ -22,12 +30,29 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(String firstName, String lastName, String email, String password) {
+	public User(String firstName, String lastName, String email, String password) throws ValidationException {
+		if(Pattern.matches(User.FIRSTNAME_VALIDATION_PATTERN, firstName)){
+			this.firstName = firstName;
+		} else {
+			throw new ValidationException("Invalid first name");
+		}
+		if(Pattern.matches(User.LASTNAME_VALIDATION_PATTERN, lastName)){
+			this.lastName = lastName;
+		} else {
+			throw new ValidationException("Invalid last name");
+		}
+		if(Pattern.matches(User.EMAIL_VALIDATION_PATTERN, email)){
+			this.email = email;
+		} else {
+			throw new ValidationException("Invalid email address");
+		}
+		if(password.length() > 0){
+			this.password = password;
+		} else {
+			throw new ValidationException("Invalid password");
+		} 
+		
 		this.id = counter++;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import enums.ActivitySortFilter;
+import exceptions.ValidationException;
 import models.Activity;
 import utils.DateTimeUtils;
 import comparators.ActivityDateComparator;
@@ -30,7 +31,7 @@ public class ActivityComparatorTest {
 	List<Activity> activities;
 	
 	@Before
-	public void setup() {
+	public void setup() throws ValidationException {
 		a1 = new Activity ("crawl","fridge",10.1, 
 				DateTimeUtils.convertStringToLocalDateTime("20:01:2016 00:00:00"), DateTimeUtils.convertStringToDuration("00:30:00"));
 		a2 = new Activity ("walk","school",2.2, 

@@ -7,17 +7,19 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import exceptions.ValidationException;
 import utils.DateTimeUtils;
 
 import static models.Fixtures.activities;
 
 public class ActivityTest {
-	Activity test = new Activity("walk", "fridge", 0.001,
-			DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
-			DateTimeUtils.convertStringToDuration("01:02:03"));
+	
 
 	@Test
-	public void testCreate() {
+	public void testCreate() throws ValidationException {
+		Activity test = new Activity("walk", "fridge", 0.001,
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03"));
 		assertEquals("walk", test.type);
 		assertEquals("fridge", test.location);
 		assertEquals(0.0001, 0.001, test.distance);
@@ -75,7 +77,10 @@ public class ActivityTest {
 	}
 
 	@Test
-	public void testToString() {
+	public void testToString() throws ValidationException {
+		Activity test = new Activity("walk", "fridge", 0.001,
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03"));
 		assertEquals("Activity{" + test.id + ", walk, fridge, 0.001, 2013-10-12T09:00, 1:02:03, []}", test.toString());
 	}
 }

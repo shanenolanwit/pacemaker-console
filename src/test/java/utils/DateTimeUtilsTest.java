@@ -2,7 +2,6 @@ package utils;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -11,12 +10,13 @@ import java.time.format.DateTimeParseException;
 import org.junit.Before;
 import org.junit.Test;
 
+import exceptions.ValidationException;
 import models.Activity;
 
 public class DateTimeUtilsTest {
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws ValidationException{
 		Activity a = new Activity("walk", "fridge", 0.001,
     			DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"), 
     			DateTimeUtils.convertStringToDuration("01:02:03"));

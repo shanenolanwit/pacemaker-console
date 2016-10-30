@@ -7,6 +7,7 @@ import java.util.EmptyStackException;
 
 import org.junit.Test;
 import controllers.PacemakerAPI;
+import exceptions.ValidationException;
 import models.Activity;
 import models.Location;
 import models.User;
@@ -28,7 +29,7 @@ public class PersistenceTest
 	private static final String TESTDATASTORE_YAML = "testdatastore.yaml";
 	PacemakerAPI pacemaker;
 	
-	void populate (PacemakerAPI pacemaker){
+	void populate (PacemakerAPI pacemaker) throws ValidationException{
 	
 		for (User user : users)
 		{
@@ -52,7 +53,7 @@ public class PersistenceTest
 	}
 
 	  @Test
-	  public void testPopulate()
+	  public void testPopulate() throws ValidationException
 	  { 
 		pacemaker = new PacemakerAPI(null);    
 	    assertEquals(0, pacemaker.getUsers().size());
