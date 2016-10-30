@@ -2,6 +2,18 @@ package comparators;
 
 import static org.junit.Assert.*;
 
+import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.IsSame.sameInstance;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsAnything.anything;
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.AnyOf.anyOf;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,27 +39,27 @@ import comparators.ActivityTypeComparator;
 
 public class UserComparatorTest {
 
-	User u1;
-	User u2;
-	User u3;
-	User u4;
-	User u5;
+	User annaThompson;
+	User annSimpson;
+	User catherineNolan;
+	User nicolaGoral;
+	User tanyaAnderson;
 
 	List<User> users;
 
 	@Before
 	public void setup() throws ValidationException {
-		u1 = new User("anna", "thompson", "annaT@gmail.com", "secret");
-		u2 = new User("ann", "simpson", "someone@yahoo.com", "secret");
-		u3 = new User("catherine", "nolan", "someone@gmail.com", "secret");
-		u4 = new User("nicola", "goral", "awesome@gmail.com", "secret");
-		u5 = new User("tanya", "anderson", "tandy@yahoo.com", "secret");
+		annaThompson = new User("anna", "thompson", "annaT@gmail.com", "secret");
+		annSimpson = new User("ann", "simpson", "someone@yahoo.com", "secret");
+		catherineNolan = new User("catherine", "nolan", "someone@gmail.com", "secret");
+		nicolaGoral = new User("nicola", "goral", "awesome@gmail.com", "secret");
+		tanyaAnderson = new User("tanya", "anderson", "tandy@yahoo.com", "secret");
 		users = new ArrayList<>();
-		users.add(u1);
-		users.add(u2);
-		users.add(u3);
-		users.add(u4);
-		users.add(u5);
+		users.add(annaThompson);
+		users.add(annSimpson);
+		users.add(catherineNolan);
+		users.add(nicolaGoral);
+		users.add(tanyaAnderson);
 	}
 
 	@After
@@ -55,93 +67,139 @@ public class UserComparatorTest {
 
 	}
 
+	/**
+	 * Given no comparators have been applied
+	 * When I check the array
+	 * Then the users are in the order they were added
+	 */
 	@Test
-	public void testInitialArray() {
-		assertEquals(u1, users.get(0));
-		assertEquals(u2, users.get(1));
-		assertEquals(u3, users.get(2));
-		assertEquals(u4, users.get(3));
-		assertEquals(u5, users.get(4));
+	public void validateInitialArray() {
+		assertThat(users.get(0), is(annaThompson));
+		assertThat(users.get(1), is(annSimpson));
+		assertThat(users.get(2), is(catherineNolan));
+		assertThat(users.get(3), is(nicolaGoral));
+		assertThat(users.get(4), is(tanyaAnderson));
 	}
 
+	/**
+	 * Given I sort the users array using an id comparator
+	 * When I inspect the array
+	 * Then the entries are sorted by id
+	 */
 	@Test
-	public void testIdComparator() {
+	public void sortUsersById() {
 		Collections.sort(users, new UserIdComparator());
-		assertEquals(u1, users.get(0));
-		assertEquals(u2, users.get(1));
-		assertEquals(u3, users.get(2));
-		assertEquals(u4, users.get(3));
-		assertEquals(u5, users.get(4));
+		assertThat(users.get(0), is(annaThompson));
+		assertThat(users.get(1), is(annSimpson));
+		assertThat(users.get(2), is(catherineNolan));
+		assertThat(users.get(3), is(nicolaGoral));
+		assertThat(users.get(4), is(tanyaAnderson));
 	}
 	
+	/**
+	 * Given I sort the users array using the filters sort method and the id identifier
+	 * When I inspect the array
+	 * Then the entries are sorted by id
+	 */
 	@Test
-	public void testIdSortFilter() {
+	public void userFilterCanSortById() {
 		List<User> lu = UserSortFilter.sort(users, "id");
-		assertEquals(u1, lu.get(0));
-		assertEquals(u2, lu.get(1));
-		assertEquals(u3, lu.get(2));
-		assertEquals(u4, lu.get(3));
-		assertEquals(u5, lu.get(4));
+		assertThat(lu.get(0), is(annaThompson));
+		assertThat(lu.get(1), is(annSimpson));
+		assertThat(lu.get(2), is(catherineNolan));
+		assertThat(lu.get(3), is(nicolaGoral));
+		assertThat(lu.get(4), is(tanyaAnderson));
 	}
 
+	
+	/**
+	 * Given I sort the users array using a first name comparator
+	 * When I inspect the array
+	 * Then the entries are sorted by first name
+	 */
 	@Test
-	public void testFirstNameComparator() {
+	public void sortUsersByFirstName() {
 		Collections.sort(users, new UserFirstNameComparator());
-		assertEquals(u2, users.get(0));
-		assertEquals(u1, users.get(1));
-		assertEquals(u3, users.get(2));
-		assertEquals(u4, users.get(3));
-		assertEquals(u5, users.get(4));
+		assertThat(users.get(0), is(annSimpson));
+		assertThat(users.get(1), is(annaThompson));
+		assertThat(users.get(2), is(catherineNolan));
+		assertThat(users.get(3), is(nicolaGoral));
+		assertThat(users.get(4), is(tanyaAnderson));
 	}
 	
+	/**
+	 * Given I sort the users array using the filters sort method and the firstname identifier
+	 * When I inspect the array
+	 * Then the entries are sorted by firstname
+	 */
 	@Test
-	public void testFirstNameSortFilter() {
+	public void userFilterCanSortByFirstName() {
 		List<User> lu = UserSortFilter.sort(users, "firstname");
-		assertEquals(u2, lu.get(0));
-		assertEquals(u1, lu.get(1));
-		assertEquals(u3, lu.get(2));
-		assertEquals(u4, lu.get(3));
-		assertEquals(u5, lu.get(4));
+		assertThat(lu.get(0), is(annSimpson));
+		assertThat(lu.get(1), is(annaThompson));
+		assertThat(lu.get(2), is(catherineNolan));
+		assertThat(lu.get(3), is(nicolaGoral));
+		assertThat(lu.get(4), is(tanyaAnderson));
 	}
 
+	/**
+	 * Given I sort the users array using a last name comparator
+	 * When I inspect the array
+	 * Then the entries are sorted by last name
+	 */
 	@Test
-	public void testLastNameComparator() {
+	public void sortUsersByLastName() {
 		Collections.sort(users, new UserLastNameComparator());
-		assertEquals(u5, users.get(0));
-		assertEquals(u4, users.get(1));
-		assertEquals(u3, users.get(2));
-		assertEquals(u2, users.get(3));
-		assertEquals(u1, users.get(4));
+		assertThat(users.get(0), is(tanyaAnderson));
+		assertThat(users.get(1), is(nicolaGoral));
+		assertThat(users.get(2), is(catherineNolan));
+		assertThat(users.get(3), is(annSimpson));
+		assertThat(users.get(4), is(annaThompson));
 	}
 	
+	/**
+	 * Given I sort the users array using the filters sort method and the lastname identifier
+	 * When I inspect the array
+	 * Then the entries are sorted by lastname
+	 */
 	@Test
-	public void testLastNameSortFilter() {
-		List<User> lu = UserSortFilter.sort(users, "lastname");
-		assertEquals(u5, lu.get(0));
-		assertEquals(u4, lu.get(1));
-		assertEquals(u3, lu.get(2));
-		assertEquals(u2, lu.get(3));
-		assertEquals(u1, lu.get(4));
+	public void userFilterCanSortByLastName() {
+		List<User> lu = UserSortFilter.sort(users, "lastname");		
+		assertThat(lu.get(0), is(tanyaAnderson));
+		assertThat(lu.get(1), is(nicolaGoral));
+		assertThat(lu.get(2), is(catherineNolan));
+		assertThat(lu.get(3), is(annSimpson));
+		assertThat(lu.get(4), is(annaThompson));
 	}
 
+	/**
+	 * Given I sort the users array using an email comparator
+	 * When I inspect the array
+	 * Then the entries are sorted by email address
+	 */
 	@Test
-	public void testEmailComparator() {
+	public void sortUsersByEmailAddress() {
 		Collections.sort(users, new UserEmailComparator());
-		assertEquals(u1, users.get(0));
-		assertEquals(u4, users.get(1));
-		assertEquals(u3, users.get(2));
-		assertEquals(u2, users.get(3));
-		assertEquals(u5, users.get(4));
+		assertThat(users.get(0), is(annaThompson));
+		assertThat(users.get(1), is(nicolaGoral));
+		assertThat(users.get(2), is(catherineNolan));
+		assertThat(users.get(3), is(annSimpson));
+		assertThat(users.get(4), is(tanyaAnderson));
 	}
 	
+	/**
+	 * Given I sort the users array using the filters sort method and the email identifier
+	 * When I inspect the array
+	 * Then the entries are sorted by email
+	 */
 	@Test
-	public void testEmailSortFilter() {
+	public void userFilterCanSortByEmailAddress() {
 		List<User> lu = UserSortFilter.sort(users, "email");
-		assertEquals(u1, lu.get(0));
-		assertEquals(u4, lu.get(1));
-		assertEquals(u3, lu.get(2));
-		assertEquals(u2, lu.get(3));
-		assertEquals(u5, lu.get(4));
+		assertThat(lu.get(0), is(annaThompson));
+		assertThat(lu.get(1), is(nicolaGoral));
+		assertThat(lu.get(2), is(catherineNolan));
+		assertThat(lu.get(3), is(annSimpson));
+		assertThat(lu.get(4), is(tanyaAnderson));
 	}
 
 }

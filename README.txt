@@ -4,13 +4,15 @@ INTERESTING/EXTRA FEATURES:
 3. Comparators v Streams v Factory Pattern - when sorting users and activities I decided that using seperate comparator objects is a more scalable 
 	and readable solution. See the listUsers method in the pacemaker api class to see how this has been implemented.
 	However, I added a sort method to the UserSortFilter class which demonstrates how you could use java 8 and the factory pattern to implement a sorting strategy.
-4. Geocoding - I put together a quick solution to convert latitute longitude coordinates into location descriptions. See the GoogleParser class.
+4. Geocoding - I put together a quick solution to convert latitute longitude coordinates into location descriptions. See the GoogleParser class and list locations command.
 5. Tree view - see the main method printUserTree for a differnt way to view users
 6. Java Time v Joda Time v Primitives - Each approach had their own issues, I eventually settled on using java 8s date time and java 8s duration
 	Jodas website now reccomends users yse javas own time objects, and using primitive types (ie Long representing usec instead of LocalDateTime) makes code more difficult to follow.
 7. I have added proof on concept testing for the main class. By redirecting sysout to a byte stream  in the test setup we can essentially test console output.
 8. YAML and JSON serialisers - these were difficult to implement, neither played nice with Longs,LocalDateTime or Duration. As a result, the serialisers 
 	read/write methods do some pre processing -> sanitise and normalise
+9. Junit 5 tests can be found in the test junit 5 package
+10. Gradle/Jacoco have been integrated.
 	
 
 
