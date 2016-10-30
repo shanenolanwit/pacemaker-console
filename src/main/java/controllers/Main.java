@@ -89,7 +89,7 @@ public class Main {
 		List<User> users = new ArrayList<User>(paceApi.getUsers());
 		if (!users.isEmpty()) {
 			System.out.println("ok");
-			DisplayUtils.getPacemakerTree(users).print();
+			paceApi.getPacemakerTree(users).print();
 		} else {
 			System.out.println("No users found");
 		}
@@ -152,7 +152,7 @@ public class Main {
 			@Param(name = "last name") String lastName,
 			@Param(name = "email") String email, 
 			@Param(name = "password") String password) {
-		if(!paceApi.duplicateUserExists(firstName,lastName,email)){
+		if(!paceApi.duplicateUserExists(email)){
 			try {
 				User u = paceApi.createUser(firstName, lastName, email, password);
 				System.out.println("ok");
@@ -377,9 +377,9 @@ public class Main {
 	 */
 	@Command(description = "Change File Format")
 	public void changeFileFormat(@Param(name = "file format: xml|json|binary|yaml") String fileFormat) {
-		if(FileFormat.exists(fileFormat)){
-			System.out.println("ok");
+		if(FileFormat.exists(fileFormat)){			
 			paceApi.changeFileFormat(fileFormat);
+			System.out.println("ok");
 		} else {
 			System.out.println("Invalid file format");
 		}		
@@ -420,9 +420,7 @@ public class Main {
 		Serializer serializer = new XMLSerializer();
 
 		paceApi = new PacemakerAPI(serializer);
-		if (serializer.getDataStore().isFile()) {
-			paceApi.load();
-		};
+		
 		
 	}
 

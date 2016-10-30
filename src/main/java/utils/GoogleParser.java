@@ -2,7 +2,6 @@ package utils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -19,12 +18,13 @@ import models.Location;
 //http://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&sensor=true
 public class GoogleParser {
 
+	private static final String GOOGLE_GEOCODE_URL = "http://maps.googleapis.com/maps/api/geocode/json?latlng=";
 	private final static String USER_AGENT = "Mozilla/5.0";
 
 	public static String parseLatLong(String latitude, String longitude) {
 		String display = "unknown";
 		StringBuilder sb = new StringBuilder();
-		sb.append("http://maps.googleapis.com/maps/api/geocode/json?latlng=");
+		sb.append(GOOGLE_GEOCODE_URL);
 		sb.append(latitude);
 		sb.append(",");
 		sb.append(longitude);

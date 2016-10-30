@@ -8,9 +8,10 @@ import com.google.common.base.Objects;
 
 import utils.FileLogger;
 
+@SuppressWarnings("serial")
 public class Location implements Serializable {
 
-	public static Long counter = 0l;
+	public static Long counter = new Long(0);
 	public Long id;
 	public Double longitude;
 	public Double latitude;

@@ -14,9 +14,10 @@ import exceptions.ValidationException;
 import utils.DateTimeUtils;
 import utils.FileLogger;
 
+@SuppressWarnings("serial")
 public class Activity implements Serializable {
 
-	public static Long counter = 0l;
+	public static Long counter = new Long(0);
 	public Long id;
 	public String type;
 	public String location;

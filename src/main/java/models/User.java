@@ -19,7 +19,7 @@ public class User implements Serializable {
 	public final static String LASTNAME_VALIDATION_PATTERN = "^[a-zA-Z][\\s-'a-zA-Z]+$";
 	public final static String EMAIL_VALIDATION_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 	
-	public static Long counter = 0l;
+	public static Long counter = new Long(0);
 	public Long id;
 	public String firstName;
 	public String lastName;
