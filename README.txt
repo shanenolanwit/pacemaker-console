@@ -1,3 +1,36 @@
+Persistence approach - standard serializers for xml/binary, modified json and yaml serializers to work with pacemaker 
+	(normalise data such as Long keys and Java 8 time objects)
+Presentation approach - displays information in tables, some validation performed in presentation layer to ensure clean data passed to the api
+	added a mysqldump command that outputs the current datastore to a pacemaker.sql file that can replicate the pacemaker app in mysql
+Testing approach - junit 4 and junit 5 (proof of concept), mixture of standard junit asserts and hamcrests assertThats for demonstration purposes and completeness
+	added some test for Main class as a proof of concept. Integrated jacoco with gradle build script to provide code coverage report.
+Build system approach - used maven and gradle for completeness, added gradle wrapper file for convienience
+
+Components Used ( taken from pom.xml / build.gradle )
+jacoco 
+commons-lang3:3.0
+cliche:110413
+guava:19.0
+xstream:1.4.8
+gson:2.7
+yamlbeans:1.09
+asciitable:0.2.5
+junit:4.12
+
+=======================================================================================================================================================
+
+
+
+Run the scripts independently to avoid duplicate data
+src/test/resources
+main.script -> creates users/activities/locations
+userlist.script -> creates users/activities/locations, runs user list commands
+activitylist.script -> creates users/activities/locations, runs activity list commands
+
+No auto loads are enabled
+If you wish to load data use the load command
+
+
 INTERESTING/EXTRA FEATURES: 
 1. Detecting duplicate users - uses streams and inline predicates to detect duplicate users
 2. MySQL script creator - the mysqldump command creates a file that when imported into mysql will recreate the pacemaker datastore

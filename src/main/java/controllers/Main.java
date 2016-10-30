@@ -94,15 +94,14 @@ public class Main {
 			System.out.println("No users found");
 		}
 	}
-
+	
 	/**
 	 * Displays a user associated with a given email address
-	 * <p>Equivalent to {@link controllers.Main#getUser(String)}</p>
 	 * @param email  A users email address 
 	 * @see models.User#email
 	 */
-	@Command(description = "List a Users details")
-	public void listUser(@Param(name = "email") String email) {
+	@Command(description = "Get a Users details")
+	public void getUser(@Param(name = "email") String email) {
 		Optional<User> user = Optional.fromNullable(paceApi.getUserByEmail(email));
 		if (user.isPresent()) {
 			System.out.println("ok");
@@ -110,17 +109,6 @@ public class Main {
 		}	else {
 			System.out.println("User not found");
 		}
-	}
-	
-	/**
-	 * Displays a user associated with a given email address
-	 * <p>Equivalent to {@link controllers.Main#listUser(String)}</p>
-	 * @param email  A users email address 
-	 * @see models.User#email
-	 */
-	@Command(description = "Get a Users details")
-	public void getUser(@Param(name = "email") String email) {
-		listUser(email);
 	}
 	
 	/**

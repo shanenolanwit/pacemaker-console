@@ -1,0 +1,43 @@
+cu bruce wayne batman@dc.com catwoman
+cu clark kent superman@dc.com krypton
+cu barry allen flash@dc.com zoom
+cu tony stark ironman@marvel.com pepper
+aa 0 drive cityhall 10.5 "12:10:2014 9:00:00" 1:10:20
+aa 0 walk prison 1.0 "12:10:2014 10:15:00" 0:30:30
+aa 0 spy docks 2.2 "18:10:2014 22:00:00" 10:00:00
+aa 0 run prison 2.2 "19:10:2014 08:00:00" 0:14:40
+aa 0 drive bank 8.4 "19:10:2014 08:30:00" 0:08:15
+aa 0 drive prison 8.4 "19:10:2014 09:30:00" 0:15:50
+aa 1 fly alaska 400.5 "12:12:2014 9:00:00" 1:10:20
+aa 1 fly vegas 1010.25 "24:12:2014 08:15:00" 2:35:30
+aa 2 run russia 2000.5 "10:04:2015 9:05:00" 0:11:00
+aa 2 run amsterdam 1010.25 "10:04:2015 9:05:00" 0:04:44
+aa 3 drive "empire state building" 10.5 "10:04:2016 9:05:00" 0:18:00
+aa 3 fly ireland 1010.25 "11:05:2016 9:05:00" 18:18:00
+aa 3 walk school 0.25 "11:05:2016 9:05:00" 00:05:00
+al 0 -0.258007 51.596583
+al 1 -0.262728 51.595530
+al 2 -0.258007 51.596583
+al 3 -0.262728 51.595530
+al 4 -0.264166 51.602721
+al 5 -0.262728 51.595530
+al 6 -149.780518 61.165126
+al 6 -149.798811 61.183014
+al 7 -115.175320 36.091912
+al 7 -115.155870 36.147386
+al 8 74.375821 56.885583
+al 9 204.838182 52.359016
+al 9 4.849404 52.358505
+al 10 73.985675 40.748660
+al 11 -6.327423 53.356625
+al 11 -7.140044 52.246196
+al 12 -71.116360 42.376361
+lu
+lu id
+lu firstname
+lu lastname
+lu email
+gu
+gu batman@dc.com
+lius 0
+put

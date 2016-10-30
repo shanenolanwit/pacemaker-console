@@ -20,7 +20,7 @@ public class LocationTest {
 
 	@Test
 	public void testIds() {
-		assertThat(locations[0].id, is(equalTo(locations[1].id)));
+		assertThat(locations[0].id, is(not(equalTo(locations[1].id))));
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class LocationTest {
 		assertThat(sameLatLongA, is(equalTo(sameLatLongB)));
 		
 		assertNotEquals(sameLatLongA.hashCode(), sameLatLongB.hashCode());
-		assertThat(sameLatLongA, is(sameInstance(sameLatLongB)));
+		assertThat(sameLatLongA, is(not(sameInstance(sameLatLongB))));
 	    
 	}
 
