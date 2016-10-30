@@ -2,7 +2,12 @@ package models;
 
 import static org.junit.Assert.*;
 
+
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsSame.sameInstance;
+import static org.hamcrest.core.IsEqual.equalTo;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -167,11 +172,7 @@ public class UserTest {
 			assertThat(e.getMessage(), is("Invalid password"));
 			
 		}
-	}
-	
-	
-	
-	
+	}	
 
 	@Test
 	public void testCreate() throws ValidationException {
@@ -189,7 +190,7 @@ public class UserTest {
 		for (User user : users) {
 			ids.add(user.id);
 		}
-		assertEquals(users.length, ids.size());
+		assertThat(ids.size(), is(users.length));
 	}
 
 	@Test
@@ -197,9 +198,12 @@ public class UserTest {
 		Object x = users[0];
 		//Comparing identical objects
 		assertTrue(users[0].equals(x));
+		assertThat(x, is(equalTo(users[0])));
 		//Comparing like objects
 		assertFalse(users[0].equals(users[1]));
+		assertThat(users[1], is(not(equalTo(users[0]))));
 		//Comparing unlike objects
+		assertThat(new String("Hello World"), is(not(equalTo(users[0]))));
 		assertFalse(users[0].equals(new String("Hello World")));
 		
 		//Testing default constructor and equality
@@ -216,20 +220,22 @@ public class UserTest {
 		userB.lastName = "nospmis";
 		userB.email = "remoh@nospmis.com";
 		userB.password = "terces";
-		assertFalse(userA.equals(userB));
+		assertThat(userA, is(not(equalTo(userB))));
 		userB.firstName = "homer";
-		assertFalse(userA.equals(userB));
+		assertThat(userA, is(not(equalTo(userB))));
 		userB.lastName = "simpson";
-		assertFalse(userA.equals(userB));
+		assertThat(userA, is(not(equalTo(userB))));
 		userB.email = "homer@simpson.com";
-		assertFalse(userA.equals(userB));
+		assertThat(userA, is(not(equalTo(userB))));
 		userB.password = "secret";
-		assertFalse(userA.equals(userB));
+		assertThat(userA, is(not(equalTo(userB))));
 		userB.activities.put((long) 20, activities[0]);		
 		//Testing equals
 		assertTrue(userA.equals(userB));
+		assertThat(userA, is(equalTo(userB)));
 		//Testing hashcode
 		assertNotEquals(userA.hashCode(), userB.hashCode());
+		assertThat(userA, is(not(sameInstance(userB))));
 	}
 
 	@Test

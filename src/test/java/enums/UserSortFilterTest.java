@@ -48,14 +48,14 @@ public class UserSortFilterTest {
 		assertFalse(UserSortFilter.exists(null));
 	}
 	
-	@Test(expected = Exception.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testBadIdentifierException(){
-		assertEquals(null,UserSortFilter.identify("j").getComparator().getClass());
+		UserSortFilter.identify("j").getComparator().getClass();
 	}
 	
-	@Test(expected = Exception.class)
+	@Test(expected = NullPointerException.class)
 	public void testNullIdentifierException(){
-		assertEquals(null,UserSortFilter.identify(null).getComparator().getClass());
+		UserSortFilter.identify(null).getComparator().getClass();
 	}
 
 

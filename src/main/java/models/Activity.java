@@ -45,15 +45,15 @@ public class Activity implements Serializable {
 	 */
 	public Activity(String type, String location, double distance, 
 			LocalDateTime date, Duration duration) throws ValidationException {
-		if(!type.isEmpty()){
+		if(type != null && !type.isEmpty()){
 			this.type = type;
 		} else {
 			throw new ValidationException("Invalid type");
-		} if(!location.isEmpty()){
+		} if(location != null && !location.isEmpty()){
 			this.location = location;
 		} else {
 			throw new ValidationException("Invalid location");
-		} if(distance > 0){
+		} if(distance >= 0){ //Some activities may not require travel
 			this.distance = distance;
 		} else {
 			throw new ValidationException("Invalid distance");

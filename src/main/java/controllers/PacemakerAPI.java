@@ -100,7 +100,7 @@ public class PacemakerAPI {
 	}
 	
 	/**
-	 * Deletes and unindexes a given {@link models.User}
+	 * Deletes and un-indexes a given {@link models.User}
 	 * @param user the user you wish to delete
 	 */
 	public void deleteUser(User user) {

@@ -1,10 +1,12 @@
 package models;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.IsAnything.anything;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.core.Is.is;
 import org.junit.Test;
 
 import exceptions.ValidationException;
@@ -32,6 +34,53 @@ public class ActivityTest {
 			ids.add(activity.id);
 		}
 		assertEquals(activities.length, ids.size());
+	}
+	
+	@Test(expected = ValidationException.class)
+	public void invalidTypeShouldThrowException() throws ValidationException{
+		new Activity("", "fridge", 0.001,
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03")); 
+		fail("Previous instruction should have thrown an exception");
+	}
+	
+	@Test(expected = ValidationException.class)
+	public void nullTypeShouldThrowException() throws ValidationException{
+		new Activity(null, "fridge", 0.001,
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03")); 
+		fail("Previous instruction should have thrown an exception");
+	}
+	
+	@Test(expected = ValidationException.class)
+	public void invalidLocationShouldThrowException() throws ValidationException{
+		new Activity("walk", "", 0.001,
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03")); 
+		fail("Previous instruction should have thrown an exception");
+	}
+	
+	@Test(expected = ValidationException.class)
+	public void nullLocationShouldThrowException() throws ValidationException{
+		new Activity("walk", null, 0.001,
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03")); 
+		fail("Previous instruction should have thrown an exception");
+	}
+	
+	@Test(expected = ValidationException.class)
+	public void negativeDistanceShouldThrowException() throws ValidationException{
+		new Activity("walk", "aldi", Long.MIN_VALUE,
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03")); 
+		fail("Previous instruction should have thrown an exception");
+	}
+	
+	public void zeroDistanceShouldBeAllowed() throws ValidationException{
+		Activity a = new Activity("walk", "aldi", new Long(0),
+				DateTimeUtils.convertStringToLocalDateTime("12:10:2013 9:00:00"),
+				DateTimeUtils.convertStringToDuration("01:02:03")); 
+		assertThat(a, is(anything()));
 	}
 
 	@Test

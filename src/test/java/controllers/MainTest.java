@@ -7,21 +7,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
-import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-
 import static org.hamcrest.core.StringContains.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
 public class MainTest {
 
@@ -48,12 +39,12 @@ public class MainTest {
 	/**
 	 * Given the System output has been redirected to a ByteArrayOutputStream
 	 * When I invoke the system print method
-	 * The message is sent to the byte stream instead of the console
+	 * Then the message is sent to the byte stream instead of the console
 	 */
 	@Test
 	public void validatingSystemOutRedirection() {
 		System.out.print("hello");
-	    assertEquals("hello", outContent.toString());
+	    assertThat(outContent.toString(), containsString("hello"));
 	}
 	
 	/**
@@ -132,4 +123,25 @@ public class MainTest {
 		tableCount = StringUtils.countMatches(outContent.toString(), "FIRSTNAME");
 		assertThat(tableCount, is(1));
 	}	
+	
+	/**
+	 * Given I have redirected the system out
+	 * And I have created two users
+	 * And I have cleared the output
+	 * When I list users
+	 * Then the byte stream contains the user tree
+	 * @throws IOException 
+	 */
+	@Test
+	public void testTreeDisplayUsers() throws IOException {
+		
+		main.createUser("max", "power", "max@power.com", "mp");
+		main.createUser("niall", "quinn", "nq@fai.com", "nq");
+		assertThat(outContent.toString(), containsString("max@power.com"));
+		clear();
+		
+		main.printUserTree();
+		assertThat(outContent.toString(), containsString("max@power.com"));
+		assertThat(outContent.toString(), containsString("nq@fai.com"));
+	}
 }

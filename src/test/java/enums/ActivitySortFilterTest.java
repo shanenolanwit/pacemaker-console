@@ -53,14 +53,16 @@ public class ActivitySortFilterTest {
 		assertFalse(ActivitySortFilter.exists(null));
 	}
 	
-	@Test(expected = Exception.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testBadIdentifierException(){
-		assertEquals(null,ActivitySortFilter.identify("j").getComparator().getClass());
+		ActivitySortFilter.identify("j").getComparator().getClass();
+		fail("Previous instruction should have thrown an exception");
 	}
 	
-	@Test(expected = Exception.class)
+	@Test(expected = NullPointerException.class)
 	public void testNullIdentifierException(){
-		assertEquals(null,ActivitySortFilter.identify(null).getComparator().getClass());
+		ActivitySortFilter.identify(null).getComparator().getClass();
+		fail("Previous instruction should have thrown an exception");
 	}
 
 

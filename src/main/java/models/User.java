@@ -54,22 +54,22 @@ public class User implements Serializable {
 	 * @throws ValidationException exception representing any creation errors
 	 */
 	public User(String firstName, String lastName, String email, String password) throws ValidationException {
-		if(Pattern.matches(User.FIRSTNAME_VALIDATION_PATTERN, firstName)){
+		if(firstName != null && Pattern.matches(User.FIRSTNAME_VALIDATION_PATTERN, firstName)){
 			this.firstName = firstName;
 		} else {
 			throw new ValidationException("Invalid first name");
 		}
-		if(Pattern.matches(User.LASTNAME_VALIDATION_PATTERN, lastName)){
+		if(lastName != null && Pattern.matches(User.LASTNAME_VALIDATION_PATTERN, lastName)){
 			this.lastName = lastName;
 		} else {
 			throw new ValidationException("Invalid last name");
 		}
-		if(Pattern.matches(User.EMAIL_VALIDATION_PATTERN, email)){
+		if(email != null && Pattern.matches(User.EMAIL_VALIDATION_PATTERN, email)){
 			this.email = email;
 		} else {
 			throw new ValidationException("Invalid email address");
 		}
-		if(password.length() > 0){
+		if(password != null && password.length() > 0){
 			this.password = password;
 		} else {
 			throw new ValidationException("Invalid password");

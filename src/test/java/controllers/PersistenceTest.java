@@ -3,8 +3,6 @@ package controllers;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.util.EmptyStackException;
-
 import org.junit.Test;
 import controllers.PacemakerAPI;
 import exceptions.ValidationException;
@@ -12,7 +10,6 @@ import models.Activity;
 import models.Location;
 import models.User;
 import utils.BinarySerializer;
-import utils.FileLogger;
 import utils.JSONSerializer;
 import utils.Serializer;
 import utils.XMLSerializer;

@@ -5,6 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import static models.Fixtures.locations;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsSame.sameInstance;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+
 public class LocationTest {
 	@Test
 	public void testCreate() {
@@ -14,14 +20,14 @@ public class LocationTest {
 
 	@Test
 	public void testIds() {
-		assertNotEquals(locations[0].id, locations[1].id);
+		assertThat(locations[0].id, is(equalTo(locations[1].id)));
 	}
 
 	@Test
 	public void testEquality() {
 		Object x = locations[0];
-		assertTrue(locations[0].equals(x));
-		assertFalse(locations[0].equals(locations[1]));
+		assertThat(locations[0], is(equalTo(x)));
+		assertThat(locations[0], is(not(equalTo(locations[1]))));
 		assertFalse(x.equals(new String("Hello World")));
 		Location sameLatA = new Location(23.3, 33.3);
 		Location sameLatB = new Location(23.3, 33.4);
@@ -40,7 +46,10 @@ public class LocationTest {
 		sameLatLongB.longitude = 33.5;
 		
 		assertTrue(sameLatLongA.equals(sameLatLongB));
+		assertThat(sameLatLongA, is(equalTo(sameLatLongB)));
+		
 		assertNotEquals(sameLatLongA.hashCode(), sameLatLongB.hashCode());
+		assertThat(sameLatLongA, is(sameInstance(sameLatLongB)));
 	    
 	}
 

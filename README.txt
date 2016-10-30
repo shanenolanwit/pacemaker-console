@@ -23,5 +23,8 @@ KNOWN ISSUES:
 2. Datastore - 		There is no automated call to the pacemaker API load method on startup.
 3. Validation - 	The pacemaker API makes the general assumption that arguments have already been validated.
 			For example, the main view checks that a user exists before asking the pacemaker API to find it.
-4. Mocking - The GoogleParser class uses a network connection to convert coordinates to addresses. There are no junit tests in place to test different network scenarios.
+4. Mocking - The GoogleParser class uses a network connection to convert coordinates to addresses. 
+	There are no junit tests in place to test different network scenarios.
+5. Unit testing style - Mixture of junit libraries / hamcrest librares / junit4 and junit5 tests mixed together
+	This is done on purpose to demonstrate a range of testing options available to the developer
 			

@@ -42,14 +42,16 @@ public class FileFormatTest {
 		assertFalse(FileFormat.exists(null));
 	}
 	
-	@Test(expected = Exception.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testBadIdentifierException(){
 		FileFormat.identify("j");
+		fail("Previous instruction should have thrown an exception");
 	}
 	
-	@Test(expected = Exception.class)
+	@Test(expected = NullPointerException.class)
 	public void testNullIdentifierException(){
 		FileFormat.identify(null);
+		fail("Previous instruction should have thrown an exception");
 	}
 
 
