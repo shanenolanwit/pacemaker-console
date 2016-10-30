@@ -2,6 +2,10 @@ package utils;
 
 import java.util.List;
 
+/**
+ * Class used to build a horizontal ascii tree diagram
+ * Taken from http://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram
+ */
 public class DisplayTree {
 
     final String name;
@@ -26,7 +30,6 @@ public class DisplayTree {
 		return children;
 	}
 
-	//http://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram
 	private void print(String prefix, boolean isTail) {
         System.out.println(prefix + (isTail ? "└── " : "├── ") + name);
         for (int i = 0; i < children.size() - 1; i++) {

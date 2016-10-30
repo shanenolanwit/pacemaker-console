@@ -9,6 +9,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Stack;
 
+/**
+ * BinarySerializer 
+ * @author Shane Nolan
+ * Used to serialise pacemaker information to a binary datastore
+ */
 public class BinarySerializer implements Serializer {
 
 	private Stack stack = new Stack();

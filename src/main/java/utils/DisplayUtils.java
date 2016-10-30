@@ -3,7 +3,6 @@ package utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Stack;
 import java.util.StringJoiner;
 
 import models.Activity;
@@ -19,12 +18,22 @@ import de.vandermeer.asciitable.v2.render.WidthLongestWord;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+/**
+ * Used to format pacemaker data for optimal console display
+ * @author Shane Nolan
+ *
+ */
 public class DisplayUtils {
 	
 	public final static Object[] USER_TABLE_HEADER = new String[]{"ID","FIRSTNAME","LASTNAME","EMAIL","PASSWORD"};
 	public final static Object[] ACTIVITY_TABLE_HEADER = new String[]{"ID","TYPE","LOCATION","DISTANCE","STARTTIME","DURATION","ROUTE"};
 	public final static Object[] LOCATION_TABLE_HEADER = new String[]{"LATITUDE","LONGITUDE",""};
 	
+	/**
+	 * Creates a table used to display user data
+	 * @param users Collection of pacemaker users
+	 * @return rendered user table
+	 */
 	public static RenderedTable listUsers(Collection<User> users){
 		V2_AsciiTable at = new V2_AsciiTable();
 		at.addStrongRule();
@@ -42,12 +51,22 @@ public class DisplayUtils {
 		return rt;
 	}
 	
-	public static RenderedTable listUser(User u){
+	/**
+	 * Creates a table used to display user data
+	 * @param user A single pacemaker user
+	 * @return rendered user table
+	 */
+	public static RenderedTable listUser(User user){
 		Collection<User> users = new ArrayList<>(1);
-		users.add(u);
+		users.add(user);
 		return listUsers(users);
 	}
 	
+	/**
+	 * Creates a table used to display activity data
+	 * @param activities Collection of pacemaker activities
+	 * @return rendered activity table
+	 */
 	public static RenderedTable listActivities(Collection<Activity> activities){
 		V2_AsciiTable at = new V2_AsciiTable();
 		at.addStrongRule();
@@ -65,12 +84,22 @@ public class DisplayUtils {
 		return rt;
 	}
 	
-	public static RenderedTable listActivity(Activity a){
+	/**
+	 * Creates a table used to display activity data
+	 * @param activity A single pacemaker activity
+	 * @return rendered activity table
+	 */
+	public static RenderedTable listActivity(Activity activity){
 		Collection<Activity> activities = new ArrayList<>(1);
-		activities.add(a);
+		activities.add(activity);
 		return listActivities(activities);
 	}
 
+	/**
+	 * Creates a table used to display location data
+	 * @param locations Collection of pacemaker locations
+	 * @return rendered location table
+	 */
 	public static RenderedTable listLocations(List<Location> locations) {
 		V2_AsciiTable at = new V2_AsciiTable();
 		at.addStrongRule();
@@ -87,6 +116,11 @@ public class DisplayUtils {
 		return rt;
 	}
 	
+	/**
+	 * Builds a display tree representing pacemaker in its current state.
+	 * @param users Collection of pacemaker users
+	 * @return display tree representing users/activities
+	 */
 	public static DisplayTree getPacemakerTree(Collection<User> users){
 		final DisplayTree pdt = new DisplayTree("pacemaker",new ArrayList<>());
 		users.forEach(u->{

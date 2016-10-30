@@ -12,6 +12,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Stack;
 
+/**
+ * XMLSerializer 
+ * @author Shane Nolan
+ * Used to serialise pacemaker information to an xml datastore
+ */
 public class XMLSerializer implements Serializer {
 
 	private Stack stack = new Stack();

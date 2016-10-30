@@ -3,8 +3,6 @@ package utils;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +17,11 @@ import models.Activity;
 import models.Location;
 import models.User;
 
+/**
+ * YAMLSerializer 
+ * @author Shane Nolan
+ * Used to serialise pacemaker information to a yaml datastore
+ */
 public class YAMLSerializer implements Serializer {
 	
 	private Stack stack = new Stack();
@@ -41,6 +44,9 @@ public class YAMLSerializer implements Serializer {
 	}
 
 	
+	/**
+	 * Sanitises and normalises pacemaker data. Converts yaml incompatible types to string equivalents.
+	 */
 	@Override
 	public void write() throws Exception {
 		Stack tmpStack = new Stack();
@@ -55,6 +61,7 @@ public class YAMLSerializer implements Serializer {
 			activity.put("type", v.type);
 			activity.put("location", v.location);
 			activity.put("distance", v.distance);
+			//2 digits left padded with zeros if required
 			activity.put("date", 
 					String.format("%02d", v.date.getDayOfMonth()) + ":" + 
 					String.format("%02d", v.date.getMonthValue()) + ":" + 
@@ -115,6 +122,9 @@ public class YAMLSerializer implements Serializer {
 
 	}
 
+	/**
+	 * Converts normalised yaml data to pacemaker data
+	 */
 	@Override
 	public void read() throws Exception {
 		YamlReader reader = null;

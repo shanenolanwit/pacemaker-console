@@ -2,11 +2,9 @@ package utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.ObjectInputStream.GetField;
 import java.util.Collection;
 
 import models.User;
@@ -14,6 +12,12 @@ import models.User;
 public class MySqlUtils {
 
 	public final static String NEWLINE = System.getProperty("line.separator");
+	
+	/**
+	 * Creates a MySQL script that represents pacemaker data
+	 * @param users  Collection of pacemaker users
+	 * @return  String mysql compatible script
+	 */
 	public static String createPacemakerScript(Collection<User> users) {
 		final StringBuilder scriptBuilder = new StringBuilder("DROP DATABASE IF EXISTS pacemaker;");
 		scriptBuilder.append(NEWLINE + "CREATE DATABASE pacemaker;");
@@ -57,6 +61,11 @@ public class MySqlUtils {
 		return scriptBuilder.toString();
 	}
 
+	/**
+	 * Creates a MySQL script that represents pacemaker data, and writes it to a file.
+	 * @param users  Collection of pacemaker users
+	 * @return  File mysql compatible script
+	 */
 	public static File writeToFile(Collection<User> users) {
 		try {
 			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("pacemaker.sql", false)));

@@ -22,6 +22,11 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+/**
+ * JSONSerializer 
+ * @author Shane Nolan
+ * Used to serialise pacemaker information to a json datastore
+ */
 public class JSONSerializer implements Serializer {
 
 	private Stack stack = new Stack();
@@ -43,6 +48,9 @@ public class JSONSerializer implements Serializer {
 		return stack.pop();
 	}
 
+	/**
+	 * Converts jsondata to pacemaker data
+	 */
 	public void read() throws Exception {
 		ObjectInputStream is = null;
 		JsonReader reader = new JsonReader(new FileReader(dataStore));
@@ -114,6 +122,7 @@ public class JSONSerializer implements Serializer {
 		return this.dataStore;
 	}
 	
+	//Used for converting json strings representing longs to actual longs
 	private Long sanitiseId(Object key) {
 		Long l = null;
 		if(key instanceof Number){
@@ -124,6 +133,7 @@ public class JSONSerializer implements Serializer {
 		return l;
 	}
 	
+	//Used for converting json objects representing activities to actual activities
 	private Activity sanitiseActivity(Object key) {
 		Activity a = null;
 		if(key instanceof Activity){
@@ -152,6 +162,7 @@ public class JSONSerializer implements Serializer {
 		return a;
 	}
 	
+	//Used to convert json data representing users to actual users
 	private User sanitiseUser(Object key, Map<Long, Activity> ai) {
 		User u = null;
 		if(key instanceof User){

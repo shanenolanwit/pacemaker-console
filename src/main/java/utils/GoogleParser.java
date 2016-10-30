@@ -21,6 +21,12 @@ public class GoogleParser {
 	private static final String GOOGLE_GEOCODE_URL = "http://maps.googleapis.com/maps/api/geocode/json?latlng=";
 	private final static String USER_AGENT = "Mozilla/5.0";
 
+	/**
+	 * Sends a request to googles geo code rest interface and parses the json response
+	 * @param latitude  String representing latitude
+	 * @param longitude  String representing longitude
+	 * @return  Human readable address representing the specified coordinates
+	 */
 	public static String parseLatLong(String latitude, String longitude) {
 		String display = "unknown";
 		StringBuilder sb = new StringBuilder();
