@@ -98,10 +98,14 @@ public class PacemakerAPITest
 	}
 
 	@Test
-	public void testDeleteUsers()
+	public void testDeleteUsers() throws ValidationException
 	{
 		assertEquals (users.length, pacemaker.getUsers().size());
 		User marge = pacemaker.getUserByEmail("marge@simpson.com");
+		pacemaker.createActivity(marge.id, activities[0].type, activities[0].location,
+				activities[0].distance, activities[0].date, activities[0].duration);
+		assertTrue(pacemaker.getActivitiesIndex().size() > 0);
+		assertTrue(pacemaker.getActivitiesIndex().keySet().contains(marge.id));
 		pacemaker.deleteUser(marge);
 		assertEquals (users.length-1, pacemaker.getUsers().size()); 
 		assertTrue(users.length > 0);
