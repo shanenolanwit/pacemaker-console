@@ -8,6 +8,10 @@ import com.google.common.base.Objects;
 
 import utils.FileLogger;
 
+/**
+ * Location representing a point on a map
+ * @author Shane Nolan
+ */
 @SuppressWarnings("serial")
 public class Location implements Serializable {
 
@@ -19,6 +23,11 @@ public class Location implements Serializable {
 	public Location() {
 	}
 
+	/**
+	 * Standard constructor used by pacemaker api
+	 * @param latitude  Double representing latitude
+	 * @param longitude  Double represnting longitude
+	 */
 	public Location(Double latitude, Double longitude) {
 		this.id = counter++;
 		this.latitude = latitude;

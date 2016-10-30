@@ -12,11 +12,26 @@ import com.google.common.base.Objects;
 import exceptions.ValidationException;
 import utils.FileLogger;
 
+/**
+ * User represents a human pacemaker user
+ * @author Shane Nolan
+ */
 @SuppressWarnings("serial")
 public class User implements Serializable {
 	
+	/**
+	 * First name should start with a letter, should be at least 1 character long, 
+	 * may contain spaces or hyphens but not at the start of the name
+	 */
 	public final static String FIRSTNAME_VALIDATION_PATTERN = "^[a-zA-Z][\\s-a-zA-Z]+$";
+	/**
+	 * Last name should start with a letter, should be at least 1 character long, 
+	 * may contain apostrophes, spaces or hyphens but not at the start of the name
+	 */
 	public final static String LASTNAME_VALIDATION_PATTERN = "^[a-zA-Z][\\s-'a-zA-Z]+$";
+	/**
+	 * Email requirements based on official RFC and solutions from StackOverflow
+	 */
 	public final static String EMAIL_VALIDATION_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 	
 	public static Long counter = new Long(0);
@@ -30,6 +45,14 @@ public class User implements Serializable {
 	public User() {
 	}
 
+	/**
+	 * Standard conctructor used by pacemaker api
+	 * @param firstName  String representing users first name
+	 * @param lastName  String representing users last name
+	 * @param email  String representing users email address
+	 * @param password  String representing users password
+	 * @throws ValidationException exception representing any creation errors
+	 */
 	public User(String firstName, String lastName, String email, String password) throws ValidationException {
 		if(Pattern.matches(User.FIRSTNAME_VALIDATION_PATTERN, firstName)){
 			this.firstName = firstName;

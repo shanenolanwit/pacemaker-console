@@ -14,6 +14,10 @@ import exceptions.ValidationException;
 import utils.DateTimeUtils;
 import utils.FileLogger;
 
+/**
+ * Represents a physical activity. Belongs to a {@link models.User}
+ * @author Shane Nolan
+ */
 @SuppressWarnings("serial")
 public class Activity implements Serializable {
 
@@ -30,6 +34,15 @@ public class Activity implements Serializable {
 	public Activity() {
 	}
 
+	/**
+	 * Standard activity constructor used by the pacemaker api
+	 * @param type  String representing the type of activity
+	 * @param location  String representing the general region where an activity took place
+	 * @param distance  Double representing distance in km, traveled, while performing the activity
+	 * @param date  LocalDateTime representing when the activity started
+	 * @param duration  Duration representing how long the activity lasted
+	 * @throws ValidationException exception representing any creation errors
+	 */
 	public Activity(String type, String location, double distance, 
 			LocalDateTime date, Duration duration) throws ValidationException {
 		if(!type.isEmpty()){
